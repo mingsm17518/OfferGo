@@ -1538,6 +1538,20 @@ img {
     gap: var(--spacing-sm);
 }
 
+.github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--text-secondary);
+    transition: color var(--transition-fast);
+}
+
+.github-link:hover {
+    color: var(--text-primary);
+}
+
 .theme-toggle {
     display: flex;
     align-items: center;
