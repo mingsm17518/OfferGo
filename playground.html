@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EasyAlgo 在线练习场 - 在浏览器中直接编写和运行 Python 代码">
+    <title>在线练习场 | EasyAlgo</title>
+    <script>
+        (function(){var s=localStorage.getItem('z2l-theme');var t=s||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css?v=2">
+    <link rel="stylesheet" href="assets/css/playground.css">
+    <!-- CodeMirror 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/material-darker.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/eclipse.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/hint/show-hint.min.css">
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="./" class="nav-logo">
+                <img src="assets/images/logo.svg" alt="Logo" class="logo-icon">
+                <span class="logo-text">EasyAlgo</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="./#roadmap" class="nav-link">学习路线</a></li>
+                <li><a href="./00_python_basics/" class="nav-link">知识库</a></li>
+                <li><a href="problems.html" class="nav-link">题库</a></li>
+                <li><a href="playground.html" class="nav-link">在线刷题</a></li>
+                <li><a href="acm-playground.html" class="nav-link">自由评测</a></li>
+                <li class="nav-dropdown">
+                    <button class="nav-dropdown-trigger" type="button">友情链接 ▾</button>
+                    <div class="nav-dropdown-menu">
+                        <a href="https://leetcode.cn/" target="_blank" rel="noopener">力扣中国 <span>在线刷题</span></a>
+                    </div>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题" title="切换主题">
+                    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+                </button>
+                <button class="nav-toggle" aria-label="打开菜单">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="playground-main">
+        <!-- 顶部工具栏 -->
+        <div class="playground-toolbar">
+            <div class="toolbar-left">
+                <select id="problem-select" class="problem-select">
+                    <!-- JS 动态填充 -->
+                </select>
+            </div>
+            <div class="toolbar-right">
+                <span id="pyodide-status" class="pyodide-status loading">Pyodide 加载中...</span>
+                <button id="run-btn" class="btn btn-run" disabled>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M4 2l10 6-10 6V2z" />
+                    </svg>
+                    运行代码
+                </button>
+                <button id="reset-btn" class="btn btn-reset">重置代码</button>
+            </div>
+        </div>
+
+        <!-- 三栏布局：题目 | 编辑器+输出 | AI助手 -->
+        <div class="playground-layout">
+            <!-- 左侧：题目描述 -->
+            <div class="panel panel-problem">
+                <div class="panel-header">
+                    <span class="panel-title">题目描述</span>
+                </div>
+                <div class="panel-body" id="problem-description">
+                    <!-- JS 动态填充 -->
+                </div>
+                <div class="panel-footer" id="problem-footer">
+                    <!-- JS 动态填充：题解链接 -->
+                </div>
+            </div>
+
+            <!-- 中间：编辑器 + 输出 -->
+            <div class="panel-right">
+                <!-- 代码编辑器 -->
+                <div class="panel panel-editor">
+                    <div class="panel-header">
+                        <span class="panel-title">代码编辑器</span>
+                        <span class="panel-hint">Python 3</span>
+                    </div>
+                    <div class="panel-body editor-body">
+                        <textarea id="code-editor"></textarea>
+                    </div>
+                </div>
+
+                <!-- 输出/测试结果 -->
+                <div class="panel panel-output">
+                    <div class="panel-header">
+                        <span class="panel-title">测试结果</span>
+                        <span id="result-summary" class="result-summary"></span>
+                    </div>
+                    <div class="panel-body" id="output-area">
+                        <div class="output-placeholder">点击「运行代码」查看测试结果</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：AI 助手（点击 FAB 展开） -->
+            <div id="ai-panel" class="ai-panel">
+                <div class="ai-panel-header">
+                    <div class="ai-panel-title">
+                        <span class="ai-panel-title-icon">
+                            <svg class="ai-brand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M12 3v3" />
+                                <path d="M9 3h6" />
+                                <rect x="4" y="7" width="16" height="11" rx="4" />
+                                <path d="M9 11h.01" />
+                                <path d="M15 11h.01" />
+                                <path d="M8.5 15h7" />
+                                <path d="M7 21v-3" />
+                                <path d="M17 21v-3" />
+                            </svg>
+                        </span>
+                        <span>AI 刷题助手</span>
+                    </div>
+                    <div class="ai-panel-actions">
+                        <button id="ai-clear-btn" class="ai-icon-btn" title="清空对话">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18" />
+                                <path d="M8 6V4h8v2" />
+                                <path d="M5 6v14a2 2 0 002 2h10a2 2 0 002-2V6" />
+                            </svg>
+                        </button>
+                        <button id="ai-config-btn" class="ai-icon-btn" title="配置 API">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+                            </svg>
+                        </button>
+                        <button id="ai-close-btn" class="ai-icon-btn" title="关闭">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 6L6 18" />
+                                <path d="M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="ai-messages" class="ai-messages">
+                    <!-- JS 动态填充 -->
+                </div>
+
+                <div id="ai-quick-actions" class="ai-quick-actions">
+                    <button class="ai-quick-btn" data-action="check-code">🔍 帮我看看代码</button>
+                    <button class="ai-quick-btn" data-action="give-hint">💡 给个提示</button>
+                    <button class="ai-quick-btn" data-action="explain-problem">📖 解释题目</button>
+                    <button class="ai-quick-btn" data-action="explain-error">🐛 分析报错</button>
+                    <button class="ai-quick-btn" data-action="optimize">✨ 优化代码</button>
+                </div>
+
+                <div class="ai-input-area">
+                    <textarea id="ai-input" class="ai-input" placeholder="输入问题，或使用上方快捷操作…" rows="1"></textarea>
+                    <button id="ai-send-btn" class="ai-send-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13" />
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI 助手浮动按钮 -->
+    <button id="ai-fab" class="ai-fab" title="AI 刷题助手">
+        <span class="ai-fab-icon">
+            <svg class="ai-brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 3v3" />
+                <path d="M9 3h6" />
+                <rect x="4" y="7" width="16" height="11" rx="4" />
+                <path d="M9 11h.01" />
+                <path d="M15 11h.01" />
+                <path d="M8.5 15h7" />
+                <path d="M7 21v-3" />
+                <path d="M17 21v-3" />
+            </svg>
+        </span>
+        <span class="ai-fab-pulse"></span>
+    </button>
+
+    <!-- AI 助手遮罩（移动端使用） -->
+    <div id="ai-overlay" class="ai-overlay"></div>
+
+    <!-- AI 配置弹窗 -->
+    <div id="ai-config-modal" class="ai-config-modal">
+        <div class="ai-config-content">
+            <h3>⚙️ API 配置</h3>
+            <p class="ai-config-desc">配置 OpenAI 兼容的 API 来启用 AI 助手</p>
+            <div class="ai-config-field">
+                <label for="ai-cfg-base-url">API Base URL</label>
+                <input type="text" id="ai-cfg-base-url" placeholder="https://openrouter.ai/api/v1">
+            </div>
+            <div class="ai-config-field">
+                <label for="ai-cfg-api-key">API Key</label>
+                <input type="password" id="ai-cfg-api-key" placeholder="sk-...">
+            </div>
+            <div class="ai-config-field">
+                <label for="ai-cfg-model">Model</label>
+                <input type="text" id="ai-cfg-model" placeholder="moonshotai/kimi-k2:free">
+            </div>
+            <div class="ai-config-actions">
+                <button id="ai-config-cancel" class="ai-config-btn ai-config-btn-cancel">取消</button>
+                <button id="ai-config-save" class="ai-config-btn ai-config-btn-save">保存配置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/hint/show-hint.min.js"></script>
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+    <!-- Problem Metadata -->
+    <script src="assets/js/problems-data.js"></script>
+    <!-- Playground Logic -->
+    <script src="assets/js/playground.js"></script>
+    <script src="assets/js/playground-extra/batch-1.js"></script>
+    <script src="assets/js/playground-extra/batch-2.js"></script>
+    <script src="assets/js/playground-extra/batch-3.js"></script>
+    <script src="assets/js/playground-extra/batch-4.js"></script>
+    <script src="assets/js/playground-extra/batch-5.js"></script>
+    <script src="assets/js/playground-extra/batch-6.js"></script>
+    <script src="assets/js/playground-extra/batch-7.js"></script>
+    <script src="assets/js/playground-extra/batch-8.js"></script>
+    <!-- AI Assistant -->
+    <script src="assets/js/ai-assistant.js"></script>
+    <!-- Theme toggle -->
+    <script>
+    (function () {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        function currentTheme() {
+            return document.documentElement.getAttribute('data-theme') || 'dark';
+        }
+        function syncEditorTheme(theme) {
+            if (window.editor && window.editor.setOption) {
+                window.editor.setOption('theme', theme === 'light' ? 'eclipse' : 'material-darker');
+            }
+        }
+        btn.addEventListener('click', function () {
+            var next = currentTheme() === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('z2l-theme', next);
+            syncEditorTheme(next);
+        });
+        // Sync editor theme on init (after editor is created)
+        var initCheck = setInterval(function () {
+            if (window.editor) { syncEditorTheme(currentTheme()); clearInterval(initCheck); }
+        }, 200);
+        setTimeout(function () { clearInterval(initCheck); }, 10000);
+    })();
+    </script>
+</body>
+
+</html>
