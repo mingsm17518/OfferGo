@@ -1,5 +1,5 @@
 // =============================================
-// EasyAlgo Playground - 在线 OJ
+// OfferGo Playground - 在线 OJ
 // =============================================
 
 // ---------- 链表基础设施（注入到 Python 环境）----------
@@ -1789,7 +1789,7 @@ function buildFallbackProblem(meta) {
         tags: [categoryText],
         description: `
 <h3>${meta.id}. ${escapeHtml(meta.title)} <span class="difficulty-tag ${meta.difficulty}">${escapeHtml(difficultyText)}</span></h3>
-<p>该题已经加入 EasyAlgo 题单，但当前页面还没有接入本地测试用例和专用模板。</p>
+<p>该题已经加入 OfferGo 题单，但当前页面还没有接入本地测试用例和专用模板。</p>
 ${blogTip}
 <ul>
 <li>分类：${escapeHtml(categoryText)}</li>

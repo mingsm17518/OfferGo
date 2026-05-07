@@ -1,8 +1,8 @@
-title: EasyAlgo
-description: 轻松学算法，从入门到实战
-url: ""
+title: OfferGo
+description: OfferGo · 大厂算法面试备考
+url: "https://mingsm17518.github.io"
 markdown: kramdown
-baseurl: ""
+baseurl: "/OfferGo"
 
 plugins:
   - jekyll-sitemap

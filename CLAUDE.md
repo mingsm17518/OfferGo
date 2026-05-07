@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-EasyAlgo is a personal algorithm learning platform and knowledge base. Built on Jekyll, deployed to GitHub Pages, written primarily in Chinese. Features an online playground with in-browser Python execution, ACM-style IDE, and an AI coding assistant. Originally forked from Zero2Leetcode.
+OfferGo is a personal algorithm interview prep platform focused on real company interview questions. Built on Jekyll, deployed to GitHub Pages, written primarily in Chinese. Features an online playground with in-browser Python execution, ACM-style IDE, and an AI coding assistant. Originally forked from Zero2Leetcode.
 
 ## Commands
 

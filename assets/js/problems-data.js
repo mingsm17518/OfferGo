@@ -1,5 +1,5 @@
 /**
- * EasyAlgo 多平台题库数据
+ * OfferGo 多平台题库数据
  * 每道题包含: id, title, difficulty, category, platform, url
  */
 

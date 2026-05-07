@@ -1,5 +1,5 @@
 /* =============================================
-   EasyAlgo - 轻松学算法
+   OfferGo - 轻松学算法
    ============================================= */
 
 /* CSS Variables */
@@ -1132,6 +1132,190 @@ img {
 }
 
 /* =============================================
+   Features Section (Core Selling Points)
+   ============================================= */
+
+.features-section {
+    background: var(--bg-secondary);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.feature-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* =============================================
+   Companies Section (Logo Wall)
+   ============================================= */
+
+.companies-section {
+    background: var(--bg-primary);
+}
+
+.companies-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    justify-content: center;
+}
+
+.company-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.company-tag:hover {
+    border-color: var(--primary);
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   Content Preview Section
+   ============================================= */
+
+.preview-section {
+    background: var(--bg-secondary);
+}
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.preview-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.preview-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.preview-card-tag {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.preview-card-type {
+    padding: 2px var(--spacing-sm);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
+}
+
+.preview-card-body {
+    padding: var(--spacing-lg);
+}
+
+.preview-card-body h4 {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.preview-code {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.preview-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+}
+
+.preview-text ul {
+    padding-left: var(--spacing-lg);
+    margin-top: var(--spacing-sm);
+}
+
+.preview-text li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.preview-hint {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* =============================================
    Footer
    ============================================= */
 .footer {
@@ -1301,6 +1485,10 @@ img {
     .modules-grid {
         grid-template-columns: 1fr;
     }
+
+    .preview-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Animations */
@@ -1457,6 +1645,27 @@ html[data-theme="light"] .module-btn-practice {
 
 html[data-theme="light"] .tools-section {
     background: var(--bg-secondary);
+}
+
+html[data-theme="light"] .feature-card {
+    background: var(--bg-card);
+}
+
+html[data-theme="light"] .feature-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="light"] .company-tag {
+    background: var(--bg-card);
+}
+
+html[data-theme="light"] .preview-card {
+    background: var(--bg-card);
+}
+
+html[data-theme="light"] .preview-code {
+    background: #f6f8fa;
+    border-color: var(--border-color);
 }
 
 /* Mobile menu — only apply background on small screens */

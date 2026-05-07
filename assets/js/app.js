@@ -1,5 +1,5 @@
 /**
- * EasyAlgo - 前端交互逻辑
+ * OfferGo - 前端交互逻辑
  */
 
 document.addEventListener('DOMContentLoaded', function () {
