@@ -27,7 +27,7 @@ html {
 body {
     margin: 0;
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text);
     background: var(--bg);
     overflow-x: hidden;
@@ -44,196 +44,6 @@ code, pre { font-family: var(--font-mono); }
     flex-direction: column;
 }
 
-/* ===== Navbar (unified with homepage) ===== */
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(10, 10, 15, 0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-}
-
-.nav-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 12px 24px;
-}
-
-.nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--text);
-    text-decoration: none;
-}
-
-.nav-logo .logo-icon { width: 32px; height: 32px; }
-
-.logo-text {
-    background: linear-gradient(135deg, #3b82f6, #06b6d4);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-menu li { list-style: none; }
-
-.nav-link {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    text-decoration: none;
-    position: relative;
-    transition: color 0.15s;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #3b82f6;
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover { color: var(--text); }
-.nav-link:hover::after { width: 100%; }
-
-/* Nav Dropdown */
-.nav-dropdown { position: relative; }
-
-.nav-dropdown-trigger {
-    all: unset;
-    cursor: pointer;
-    color: #60a5fa;
-    font-size: 0.85rem;
-    font-family: inherit;
-    padding: 6px 12px;
-    border: 1px solid rgba(96, 165, 250, 0.3);
-    border-radius: 8px;
-    transition: color 0.15s, background 0.15s, border-color 0.15s;
-}
-
-.nav-dropdown-trigger:hover {
-    color: var(--text);
-    background: rgba(96, 165, 250, 0.08);
-    border-color: rgba(96, 165, 250, 0.5);
-}
-
-.nav-dropdown-menu {
-    position: absolute;
-    top: calc(100% + 6px);
-    right: 0;
-    min-width: 200px;
-    background: #12121a;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 6px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-4px);
-    transition: opacity 0.18s, visibility 0.18s, transform 0.18s;
-    z-index: 200;
-}
-
-.nav-dropdown:hover .nav-dropdown-menu,
-.nav-dropdown:focus-within .nav-dropdown-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.nav-dropdown-menu a {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    color: var(--text) !important;
-    font-size: 0.82rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background 0.12s;
-}
-
-.nav-dropdown-menu a:hover {
-    background: rgba(59, 130, 246, 0.1);
-    color: #60a5fa !important;
-}
-
-.nav-dropdown-menu a span {
-    font-size: 0.7rem;
-    font-weight: 400;
-    color: var(--text-muted);
-    margin-left: auto;
-}
-
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    color: var(--text-secondary);
-    transition: color 0.15s, border-color 0.15s, background 0.15s;
-    flex-shrink: 0;
-}
-
-.theme-toggle:hover {
-    color: var(--text);
-    border-color: #3b82f6;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-html[data-theme="dark"] .icon-moon { display: none; }
-html[data-theme="light"] .icon-sun { display: none; }
-
-.nav-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-}
-
-.nav-toggle span {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--text);
-    transition: 0.15s;
-}
-
 /* ===== 3-Column Main Layout ===== */
 .doc-main {
     display: grid;
@@ -241,7 +51,7 @@ html[data-theme="light"] .icon-sun { display: none; }
     gap: 0;
     width: min(1360px, calc(100% - 48px));
     margin: 0 auto;
-    padding: 24px 0 64px;
+    padding: 80px 0 64px;
     align-items: start;
 }
 
@@ -781,38 +591,10 @@ html[data-theme="light"] .reaction-btn.is-disliked { background: rgba(225, 29, 7
     .doc-main { grid-template-columns: 1fr; }
     .doc-sidebar { position: static; max-height: none; overflow-y: visible; padding: 16px 0; border-right: none; }
     .doc-article { border: none; border-top: 1px solid var(--border); padding: 24px 0; }
-    .nav-container, .doc-main, .doc-footer-inner { width: calc(100% - 32px); }
-}
-
-@media (max-width: 768px) {
-    .nav-menu {
-        position: fixed;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: #12121a;
-        flex-direction: column;
-        padding: 16px;
-        gap: 12px;
-        transform: translateY(-150%);
-        opacity: 0;
-        transition: all 0.3s ease;
-        border-bottom: 1px solid var(--border);
-        z-index: 99;
-    }
-
-    .nav-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    .nav-toggle {
-        display: flex;
-    }
+    .doc-main, .doc-footer-inner { width: calc(100% - 32px); }
 }
 
 @media (max-width: 480px) {
-    .nav-container { flex-wrap: wrap; gap: 10px; }
     .doc-article h1 { font-size: 1.4rem; }
 }
 
@@ -846,14 +628,6 @@ html[data-theme="light"] {
 /* Navbar */
 html[data-theme="light"] .navbar {
     background: rgba(255, 255, 255, 0.92);
-}
-
-html[data-theme="light"] .nav-toggle span {
-    background: var(--text);
-}
-
-html[data-theme="light"] .theme-toggle:hover {
-    background: rgba(0, 0, 0, 0.05);
 }
 
 /* Sidebar scrollbar */
