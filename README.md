@@ -1,67 +1,87 @@
-# Zero2Leetcode 🚀
+# OfferGo
 
 <div align="center">
 
-**从零基础 Python 到企业笔试机试的系统性刷题指南**
+**大厂算法面试备考平台 — 真题 + 刷题 + AI 教练**
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![LeetCode](https://img.shields.io/badge/LeetCode-Hot%20100-orange.svg)](https://leetcode.cn/studyplan/top-100-liked/)
 [![AI Coach](https://img.shields.io/badge/AI-刷题助手-blueviolet.svg)](#-ai-刷题助手)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[视频介绍](#-视频介绍) • [开始学习](#-学习路线) • [题目列表](#-leetcode-hot-100) • [在线练习场](playground.html) • [ACM 模拟](acm-playground.html) • [AI 助手](#-ai-刷题助手)
+[在线练习场](playground.html) • [ACM 模拟](acm-playground.html) • [AI 助手](#-ai-刷题助手) • [大厂真题](04_real_interviews/)
 
 </div>
 
 ---
 
-## 📖 项目简介
+## 项目简介
 
-本项目专为**计算机专业求职者**设计，帮助你从 Python 零基础到能够独立解决 LeetCode 中等难度题目，顺利通过企业笔试机试第一关。
+OfferGo 专为**计算机求职者**设计，从 Python 零基础到通过大厂笔试面试，一站式备考。
 
-### ✨ 核心亮点
+### 核心亮点
 
-- 📚 **系统学习路线** — 4 阶段从 Python 基础到 LeetCode 实战
+- 🏢 **14 家大厂真题** — 阿里、字节、华为、美团等笔试面试真题，按公司分类
 - 🖥️ **在线练习场** — 内置 98 道 Hot 100 题目，浏览器直接运行 Python
 - 🎯 **ACM 模拟 IDE** — 模拟大厂笔试 ACM 模式，支持 stdin/stdout 和断点调试
 - 🤖 **AI 刷题助手** — 内置 AI 教练，自动读取题目和代码，给出诊断和提示
+- 🗺️ **6 阶段学习体系** — 从 Python 基础到面试八股文，循序渐进
 - 📝 **完整题解** — LeetCode Hot 100 全部题解
 
-### 🎯 目标用户
+### 目标用户
 
-- ✅ Python 语言零基础或仅掌握基础语法
-- ✅ 准备校招/社招笔试机试
-- ✅ 目标通过 LeetCode Medium 难度
-
-### ⏱️ 学习周期
-
-建议 **8-12 周**，每天投入 2-3 小时
+- Python 零基础或仅掌握基础语法
+- 准备校招/社招笔试机试
+- 目标通过 LeetCode Medium 难度
 
 ---
 
-## 🎬 视频介绍
+## 本地部署
 
-> 想先看演示再开刷，可以直接看这条 B 站视频。
+### 方式一：Jekyll（推荐，支持全站功能）
 
-**零门槛刷力扣 Hot100！免费在线 OJ + AI 教练，不用登录直接开刷**  
-视频地址：[https://www.bilibili.com/video/BV129QmBGE3Q/](https://www.bilibili.com/video/BV129QmBGE3Q/)
+```bash
+# 克隆项目
+git clone https://github.com/mingsm17518/OfferGo.git
+cd OfferGo
 
-这条视频会快速带你了解项目的核心使用方式：
+# 安装 Ruby 和 Jekyll（macOS）
+brew install ruby
+export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
+gem install bundler jekyll
+bundle install
 
-- 浏览器内直接刷 LeetCode Hot 100，不用本地搭环境
-- 内置免费在线 OJ，打开页面就能写代码、运行和调试
-- AI 教练自动读取当前题目和代码，给出提示、诊断和讲解
-- 不用登录，打开即用，适合零基础和面试前集中训练
+# 启动开发服务器
+export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"
+bundle exec jekyll serve --watch
+# 访问 http://localhost:4000
+```
 
-如果你想先看完整演示，再按仓库里的学习路线系统刷题，建议先看视频，再进入下方的 AI 助手和题单部分。
+> 建议将 Ruby PATH 写入 `~/.zshrc`，避免每次手动 export：
+> ```bash
+> echo 'export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"' >> ~/.zshrc
+> ```
+
+### 方式二：纯静态（仅需练习场和 ACM IDE）
+
+```bash
+git clone https://github.com/mingsm17518/OfferGo.git
+cd OfferGo
+python3 -m http.server 8080
+# 首页:          http://localhost:8080
+# 在线练习场:    http://localhost:8080/playground.html
+# ACM 模拟 IDE:  http://localhost:8080/acm-playground.html
+```
+
+> 注意：纯静态模式下，Jekyll 生成的页面（`_site/` 目录中的内容）可能无法正确显示。
 
 ---
 
-## 🤖 AI 刷题助手
+## AI 刷题助手
 
 > **全栈内置，免费使用，无需配置** — 点击练习场右下角 🤖 按钮即可体验
 
-AI 刷题助手是本项目最核心的特色功能。它会**自动读取你当前正在做的题目和编写的代码**，然后以教学式方式帮你诊断问题、给出提示，而不是直接给答案。
+AI 刷题助手会**自动读取你当前正在做的题目和编写的代码**，以教学式方式帮你诊断问题、给出提示，而不是直接给答案。
 
 ### 功能预览
 
@@ -91,91 +111,69 @@ AI 刷题助手是本项目最核心的特色功能。它会**自动读取你当
 3. 点击快捷按钮或输入自定义问题
 4. AI 自动注入当前题目 + 你的代码作为上下文，给出针对性回答
 
-> 💡 **默认免费可用**，内置 OpenRouter 免费 API。如需使用自己的 API，点击齿轮图标 ⚙️ 即可配置。
+> 默认免费可用，内置 OpenRouter 免费 API。如需使用自己的 API，点击齿轮图标 ⚙️ 配置。
 
 ---
 
-## 🎯 ACM 模拟 IDE
+## ACM 模拟 IDE
 
 > **模拟大厂笔试真实环境** — 直接粘贴真题代码，输入测试数据，一键运行
 
-大厂笔试（阿里、美团、华为等）普遍使用 **ACM 模式**：通过 `input()` 读取输入、`print()` 输出结果，和 LeetCode 的函数式调用完全不同。ACM 模拟 IDE 专为此场景设计。
+大厂笔试（阿里、美团、华为等）普遍使用 **ACM 模式**：通过 `input()` 读取输入、`print()` 输出结果，和 LeetCode 的函数式调用完全不同。
 
 ### 核心功能
 
 | 功能 | 说明 |
 |------|------|
-| 📥 **stdin/stdout** | 完整支持 `input()` / `print()`，粘贴测试数据即可运行 |
-| 📝 **输入模板** | 7 种常用模板（单整数、数组、矩阵、多组用例、图等） |
-| ✅ **输出对比** | 填入期望输出，自动判定 ACCEPTED / WRONG ANSWER |
-| 🐛 **断点调试** | 点击行号设置断点，逐行回放执行过程，实时查看变量变化 |
-| 💾 **自动保存** | 代码和输入自动保存到浏览器，刷新不丢失 |
-
-### 使用方式
-
-1. 打开 [ACM 模拟 IDE](acm-playground.html)
-2. 在左侧编辑器编写代码（或从真题文章粘贴）
-3. 在右侧「输入」区粘贴测试数据
-4. 点击「运行」或按 `Ctrl+Enter` 执行
-5. 点击「调试」进入逐行回放模式，查看每步变量状态
+| 📥 stdin/stdout | 完整支持 `input()` / `print()`，粘贴测试数据即可运行 |
+| 📝 输入模板 | 7 种常用模板（单整数、数组、矩阵、多组用例、图等） |
+| ✅ 输出对比 | 填入期望输出，自动判定 ACCEPTED / WRONG ANSWER |
+| 🐛 断点调试 | 点击行号设置断点，逐行回放执行过程，查看变量变化 |
+| 💾 自动保存 | 代码和输入自动保存到浏览器，刷新不丢失 |
 
 ---
 
-## 🗺️ 学习路线
+## 学习路线
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│  Python     │───▶│   数据结构   │───▶│   核心算法   │───▶│  LeetCode   │
-│  基础语法    │    │   掌握       │    │   突破       │    │  实战       │
-│  (1-2周)    │    │   (2-3周)    │    │   (3-4周)    │    │  (2-3周)    │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  Python     │───▶│   数据结构   │───▶│   核心算法   │───▶│  LeetCode   │───▶│  大厂真题    │───▶│  面试八股文  │
+│  基础语法    │    │   掌握       │    │   突破       │    │  实战       │    │  精选       │    │  攻坚       │
+│  (1-2周)    │    │   (2-3周)    │    │   (3-4周)    │    │  (2-3周)    │    │  (1-2周)    │    │  (1-2周)    │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
-### 阶段一：Python 基础 (1-2 周) `./00_python_basics/`
+### 阶段一：Python 基础 (1-2 周) → `00_python_basics/`
 
-| 模块 | 知识点 | 重要程度 |
-|------|--------|----------|
-| 变量与类型 | int, float, str, bool, None | ⭐⭐⭐⭐⭐ |
-| 控制流 | if/elif/else, for, while, break, continue | ⭐⭐⭐⭐⭐ |
-| 函数 | def, 参数, 返回值, lambda, 作用域 | ⭐⭐⭐⭐⭐ |
-| 集合类型 | list, dict, set, tuple | ⭐⭐⭐⭐⭐ |
-| 面向对象 | class, 继承, `__init__`, `__str__` | ⭐⭐⭐ |
+### 阶段二：数据结构 (2-3 周) → `01_data_structures/`
 
-### 阶段二：数据结构 (2-3 周) `./01_data_structures/`
+### 阶段三：核心算法 (3-4 周) → `02_algorithms/`
 
-| 数据结构 | 核心操作 | 刷题重点 |
-|----------|----------|----------|
-| 数组 | 遍历, 双指针, 原地操作 | ⭐⭐⭐⭐⭐ |
-| 字符串 | 滑动窗口, 回文判断 | ⭐⭐⭐⭐⭐ |
-| 链表 | 指针操作, 虚拟头节点, 反转 | ⭐⭐⭐⭐ |
-| 栈/队列 | LIFO/FIFO, 单调栈 | ⭐⭐⭐⭐ |
-| 哈希表 | O(1)查找, 去重, 计数 | ⭐⭐⭐⭐⭐ |
-| 树 | 前中后序遍历, 层序遍历 | ⭐⭐⭐⭐⭐ |
-| 堆 | TopK 问题, 优先队列 | ⭐⭐⭐ |
-| 图 | 邻接表, DFS/BFS | ⭐⭐⭐ |
+### 阶段四：LeetCode 实战 (2-3 周) → `03_leetcode_practice/`
 
-### 阶段三：核心算法 (3-4 周) `./02_algorithms/`
+### 阶段五：大厂真题 (1-2 周) → `04_real_interviews/`
 
-| 算法 | 核心思想 | 难度 |
-|------|----------|------|
-| 排序 | 快排, 归并, 堆排序 | ⭐⭐ |
-| 二分查找 | 边界处理, 变体题 | ⭐⭐⭐ |
-| 双指针 | 对撞指针, 快慢指针 | ⭐⭐ |
-| 滑动窗口 | 动态维护区间 | ⭐⭐⭐ |
-| 递归/回溯 | 状态树, 剪枝 | ⭐⭐⭐⭐ |
-| BFS/DFS | 层序/深度搜索 | ⭐⭐⭐ |
-| 动态规划 | 状态定义, 转移方程 | ⭐⭐⭐⭐⭐ |
-| 贪心 | 局部最优→全局最优 | ⭐⭐⭐ |
+| 公司 | 目录 |
+|------|------|
+| 阿里巴巴 | `04_real_interviews/alibaba/` |
+| 字节跳动 | `04_real_interviews/bytedance/` |
+| 华为 | `04_real_interviews/huawei/` |
+| 美团 | `04_real_interviews/meituan/` |
+| 拼多多 | `04_real_interviews/pinduoduo/` |
+| 网易 | `04_real_interviews/netease/` |
+| 携程 | `04_real_interviews/ctrip/` |
+| 蚂蚁集团 | `04_real_interviews/ant/` |
+| 得物 | `04_real_interviews/dewu/` |
+| 哔哩哔哩 | `04_real_interviews/bilibili/` |
+| 米哈游 | `04_real_interviews/mihoyo/` |
+| 蔩来 | `04_real_interviews/nio/` |
+| 科大讯飞 | `04_real_interviews/iflytek/` |
 
-### 阶段四：LeetCode 实战 (2-3 周) `./03_leetcode_practice/`
-
-主攻 **LeetCode Hot 100**，覆盖面试高频题
+### 阶段六：面试八股文 (1-2 周) → `05_interview/`
 
 ---
 
-## 🔥 LeetCode Hot 100
-
-> 点击题号直接跳转 LeetCode 官方练习！
+## LeetCode Hot 100 题解
 
 ### 哈希表 (5题)
 
@@ -338,94 +336,41 @@ AI 刷题助手是本项目最核心的特色功能。它会**自动读取你当
 
 ---
 
-## 📁 项目结构
+## 项目结构
 
 ```
-zero2Leetcode/
-├── README.md                    # 项目说明
-├── index.html                   # 🌐 前端学习平台入口
-├── playground.html              # 🖥️ 在线练习场（含 AI 助手）
-├── acm-playground.html          # 🎯 ACM 模拟 IDE（stdin/stdout + 调试）
-├── requirements.txt             # Python 依赖
+OfferGo/
+├── index.html                   # 首页（学习路线 + 功能介绍）
+├── playground.html              # 在线练习场（含 AI 助手）
+├── acm-playground.html          # ACM 模拟 IDE
+├── problems.html                # 题库页面
+├── _config.yml                  # Jekyll 配置
 │
 ├── assets/
-│   ├── css/
-│   │   ├── style.css            # 全站设计系统
-│   │   ├── playground.css       # 练习场 + AI 助手样式
-│   │   └── acm-playground.css   # ACM 模拟 IDE 样式
-│   ├── js/
-│   │   ├── playground.js        # 练习场核心逻辑
-│   │   ├── acm-playground.js    # ACM 模拟 IDE 逻辑
-│   │   └── ai-assistant.js      # 🤖 AI 刷题助手模块
-│   └── images/                  # 静态资源
+│   ├── css/                     # 样式（全局 + 各页面）
+│   ├── js/                      # JavaScript（练习场、AI 助手）
+│   └── images/                  # 图标和截图
 │
-├── 00_python_basics/            # Python 基础
-├── 01_data_structures/          # 数据结构
-├── 02_algorithms/               # 核心算法
-└── 03_leetcode_practice/        # LeetCode 实战
-    ├── hash/                    # 哈希表
-    ├── two_pointers/            # 双指针
-    ├── sliding_window/          # 滑动窗口
-    ├── stack/                   # 栈
-    ├── linked_list/             # 链表
-    ├── tree/                    # 树
-    ├── graph/                   # 图
-    ├── backtrack/               # 回溯
-    ├── binary_search/           # 二分查找
-    ├── dp/                      # 动态规划
-    ├── greedy/                  # 贪心
-    ├── heap/                    # 堆
-    ├── matrix/                  # 矩阵
-    └── other/                   # 其他技巧
+├── _data/nav.yml                # 导航配置
+├── _layouts/                    # Jekyll 页面模板
+├── _includes/                   # Jekyll 公共组件
+│
+├── 00_python_basics/            # 阶段一：Python 基础
+├── 01_data_structures/          # 阶段二：数据结构
+├── 02_algorithms/               # 阶段三：核心算法
+├── 03_leetcode_practice/        # 阶段四：LeetCode 实战
+├── 04_real_interviews/          # 阶段五：大厂真题
+│   ├── alibaba/
+│   ├── bytedance/
+│   ├── huawei/
+│   ├── meituan/
+│   └── ...
+├── 05_interview/                # 阶段六：面试八股文
+└── notes/                       # 学习笔记
 ```
 
 ---
 
-## 🚀 快速开始
+## License
 
-### 本地运行
-
-```bash
-# 克隆项目
-git clone https://github.com/ranxi2001/zero2Leetcode.git
-cd zero2Leetcode
-
-# 启动本地服务器
-python3 -m http.server 8080
-# 在线练习场: http://localhost:8080/playground.html
-# ACM 模拟 IDE: http://localhost:8080/acm-playground.html
-
-# 运行 Python 示例
-python 00_python_basics/01_variables_types/concepts.py
-```
-
-### 在线练习
-
-所有题解都链接到 LeetCode 官方，点击表格中的题目名称即可跳转在线练习！
-
-👉 **推荐学习计划**: [LeetCode 力扣 Hot 100 官方题单](https://leetcode.cn/studyplan/top-100-liked/)
-
----
-
-## 💡 学习建议
-
-1. **循序渐进**: 按阶段学习，不要跳跃
-2. **动手为先**: 每道题先自己尝试 15-30 分钟
-3. **善用 AI**: 卡住时点 🤖 助手获取提示，而不是直接看答案
-4. **理解模板**: 掌握每类题型的解题模板
-5. **重复练习**: 做错的题目隔 3-5 天重做
-6. **总结归纳**: 建立自己的错题本和模板库
-
----
-
-## 📝 License
-
-MIT License © 2026
-
----
-
-<div align="center">
-
-**🌟 如果对你有帮助，请点个 Star！**
-
-</div>
+MIT License

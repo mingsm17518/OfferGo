@@ -1227,6 +1227,116 @@ img {
     transform: translateY(-2px);
 }
 
+.feature-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+}
+
+.company-tag {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* =============================================
+   AI Showcase Section
+   ============================================= */
+
+.ai-section {
+    background: var(--bg-secondary);
+}
+
+.ai-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.ai-feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-base);
+}
+
+.ai-feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #06b6d4, #8b5cf6);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.ai-feature-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.ai-feature-card:hover::before {
+    opacity: 1;
+}
+
+.ai-feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.ai-feature-card h3 {
+    font-size: 1.15rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.ai-feature-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.ai-cta {
+    text-align: center;
+    margin-top: var(--spacing-xl);
+}
+
+.ai-cta-button {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.ai-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+html[data-theme="light"] .ai-section {
+    background: linear-gradient(180deg, #f0f4ff 0%, var(--bg-secondary) 100%);
+}
+
+html[data-theme="light"] .ai-feature-card {
+    background: var(--bg-card);
+}
+
+html[data-theme="light"] .ai-feature-card:hover {
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.1);
+}
+
 /* =============================================
    Content Preview Section
    ============================================= */
