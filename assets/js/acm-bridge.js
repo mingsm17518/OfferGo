@@ -1,11 +1,11 @@
 // =============================================
 // ACM Bridge — 在真题文章中注入"在 ACM IDE 中运行"按钮
-// 仅在 04_real_interviews 页面上激活
+// 仅在 docs/04_real_interviews 页面上激活
 // =============================================
 
 (function () {
     // 仅在真题页面生效
-    if (window.location.pathname.indexOf('04_real_interviews') === -1) return;
+    if (window.location.pathname.indexOf('docs/04_real_interviews') === -1) return;
 
     // 等待 hljs 高亮完成后执行
     var ready = window.requestIdleCallback || function (fn) { setTimeout(fn, 100); };
