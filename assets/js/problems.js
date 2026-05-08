@@ -162,7 +162,7 @@
                     '<td class="problem-title"><a href="' + p.url + '" target="_blank" rel="noopener">' + escapeHtml(p.title) + '</a></td>' +
                     '<td><span class="difficulty-badge ' + p.difficulty + '">' + getDifficultyIcon(p.difficulty) + ' ' + (window.DIFFICULTY_NAMES[p.difficulty] || p.difficulty) + '</span></td>' +
                     '<td><span class="category-badge">' + (window.CATEGORY_NAMES[p.category] || p.category) + '</span></td>' +
-                    '<td class="practice-links"><a href="' + p.url + '" target="_blank" rel="noopener" class="practice-link">' + practiceLabel + '</a></td>' +
+                    '<td class="practice-links"><a href="playground.html?id=' + encodeURIComponent(p.id) + '" class="practice-link">在线刷题</a></td>' +
                     '<td class="blog-link">' + (p.blogUrl ? '<a href="' + p.blogUrl + '" target="_blank" rel="noopener" class="practice-link practice-blog">博客详解 ↗</a>' : '') + '</td>' +
                     '</tr>';
             }).join('');
