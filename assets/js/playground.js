@@ -14,15 +14,20 @@ async function fetchProblemDetail(id) {
 
     const result = { description: null, template: null };
 
-    // 加载题目描述（Markdown → HTML）
+    // 加载题目描述
+    // Jekyll 部署时 .md 被转为 .html，本地开发时保持 .md
     try {
-        const mdResp = await fetch(`problems/${id}/problem.md`);
-        if (mdResp.ok) {
-            const mdText = await mdResp.text();
-            // 去掉 YAML frontmatter
-            const body = mdText.replace(/^---\s*\n.*?\n---\s*\n?/s, '');
-            if (body.trim()) {
-                result.description = marked.parse(body);
+        let htmlResp = await fetch(`problems/${id}/problem.html`);
+        if (htmlResp.ok) {
+            result.description = await htmlResp.text();
+        } else {
+            const mdResp = await fetch(`problems/${id}/problem.md`);
+            if (mdResp.ok) {
+                const mdText = await mdResp.text();
+                const body = mdText.replace(/^---\s*\n.*?\n---\s*\n?/s, '');
+                if (body.trim()) {
+                    result.description = marked.parse(body);
+                }
             }
         }
     } catch (e) { /* ignore */ }
