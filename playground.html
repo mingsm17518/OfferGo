@@ -42,7 +42,7 @@
                 <li><a href="./00_python_basics/" class="nav-link">知识库</a></li>
                 <li><a href="problems.html" class="nav-link">题库</a></li>
                 <li><a href="playground.html" class="nav-link">在线刷题</a></li>
-                <li><a href="acm-playground.html" class="nav-link">自由评测</a></li>
+                <li><a href="playground.html?mode=acm" class="nav-link">ACM 评测</a></li>
                 <li class="nav-dropdown">
                     <button class="nav-dropdown-trigger" type="button">友情链接 ▾</button>
                     <div class="nav-dropdown-menu">
@@ -72,6 +72,9 @@
         <!-- 顶部工具栏 -->
         <div class="playground-toolbar">
             <div class="toolbar-left">
+                <button id="left-collapse-btn" class="panel-collapse-btn" title="收起题目面板">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
                 <select id="problem-select" class="problem-select">
                     <!-- JS 动态填充 -->
                 </select>
@@ -82,16 +85,23 @@
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M4 2l10 6-10 6V2z" />
                     </svg>
-                    运行代码
+                    运行
                 </button>
-                <button id="reset-btn" class="btn btn-reset">重置代码</button>
+                <button id="reset-btn" class="btn btn-reset">重置</button>
+                <span class="toolbar-divider"></span>
+                <button id="cph-toggle-btn" class="panel-collapse-btn" title="打开 CPH 评测面板">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
             </div>
         </div>
 
-        <!-- 三栏布局：题目 | 编辑器+输出 | AI助手 -->
+        <!-- 三栏布局：题目 | 编辑器+输出 | CPH评测 -->
         <div class="playground-layout">
-            <!-- 左侧：题目描述 -->
-            <div class="panel panel-problem">
+            <!-- 左侧：题目描述（可折叠） -->
+            <div class="panel panel-left" id="panel-left">
+                <button class="panel-collapse-handle" id="left-collapse-handle" title="收起题目">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
                 <div class="panel-header">
                     <span class="panel-title">题目描述</span>
                 </div>
@@ -104,7 +114,7 @@
             </div>
 
             <!-- 中间：编辑器 + 输出 -->
-            <div class="panel-right">
+            <div class="panel-center" id="panel-center">
                 <!-- 代码编辑器 -->
                 <div class="panel panel-editor">
                     <div class="panel-header">
@@ -123,7 +133,68 @@
                         <span id="result-summary" class="result-summary"></span>
                     </div>
                     <div class="panel-body" id="output-area">
-                        <div class="output-placeholder">点击「运行代码」查看测试结果</div>
+                        <div class="output-placeholder">点击「运行」查看测试结果</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：CPH 评测面板（可折叠，默认收起） -->
+            <div class="cph-panel" id="cph-panel">
+                <button class="cph-collapse-handle" id="cph-collapse-handle" title="收起评测面板">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+                <div class="panel-header">
+                    <span class="panel-title">CPH 评测</span>
+                    <div style="display:flex;gap:4px;">
+                        <button id="cph-run-btn" class="panel-action-btn" style="color:var(--easy);border-color:var(--easy);">运行</button>
+                        <button id="debug-btn" class="panel-action-btn" style="color:#ffa116;border-color:#ffa116;">调试</button>
+                    </div>
+                </div>
+                <div class="cph-content">
+                    <div class="cph-subpanel cph-subpanel-input">
+                        <div class="panel-header">
+                            <span class="panel-title">输入 (stdin)</span>
+                            <button id="clear-input-btn" class="panel-action-btn">清空</button>
+                        </div>
+                        <div class="panel-body io-body">
+                            <textarea id="stdin-area" class="io-textarea" placeholder="在此输入测试数据..." spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                    <div class="cph-subpanel cph-subpanel-output">
+                        <div class="panel-header">
+                            <span class="panel-title">输出 (stdout)</span>
+                            <span id="run-status" class="run-status"></span>
+                        </div>
+                        <div class="panel-body io-body">
+                            <pre id="stdout-area" class="io-output placeholder-text">点击「运行」执行代码</pre>
+                        </div>
+                    </div>
+                    <div class="cph-subpanel cph-subpanel-expected">
+                        <div class="panel-header">
+                            <span class="panel-title">期望输出</span>
+                            <span id="diff-result" class="diff-result"></span>
+                        </div>
+                        <div class="panel-body io-body">
+                            <textarea id="expected-area" class="io-textarea" placeholder="粘贴期望输出，自动对比..." spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                    <!-- 调试面板 -->
+                    <div id="debug-panel" class="debug-panel">
+                        <div class="panel-header">
+                            <span class="panel-title">调试回放</span>
+                            <button id="debug-close-btn" class="panel-action-btn">关闭</button>
+                        </div>
+                        <div class="debug-controls">
+                            <button id="debug-prev-bp" class="debug-step-btn" title="上一个断点">⏮</button>
+                            <button id="debug-prev" class="debug-step-btn" title="上一步">◀</button>
+                            <span id="debug-info" class="debug-info">0 / 0</span>
+                            <button id="debug-next" class="debug-step-btn" title="下一步">▶</button>
+                            <button id="debug-next-bp" class="debug-step-btn" title="下一个断点">⏭</button>
+                        </div>
+                        <div class="debug-body">
+                            <div class="debug-vars-header">变量状态</div>
+                            <div id="debug-vars"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -249,14 +320,6 @@
     <script src="assets/js/problems-data.js"></script>
     <!-- Playground Logic -->
     <script src="assets/js/playground.js"></script>
-    <script src="assets/js/playground-extra/batch-1.js"></script>
-    <script src="assets/js/playground-extra/batch-2.js"></script>
-    <script src="assets/js/playground-extra/batch-3.js"></script>
-    <script src="assets/js/playground-extra/batch-4.js"></script>
-    <script src="assets/js/playground-extra/batch-5.js"></script>
-    <script src="assets/js/playground-extra/batch-6.js"></script>
-    <script src="assets/js/playground-extra/batch-7.js"></script>
-    <script src="assets/js/playground-extra/batch-8.js"></script>
     <!-- AI Assistant -->
     <script src="assets/js/ai-assistant.js"></script>
     <!-- Theme toggle -->

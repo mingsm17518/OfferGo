@@ -135,17 +135,36 @@
     overflow: hidden;
 }
 
-.panel-problem {
-    width: 40%;
-    min-width: 300px;
+.panel-left {
+    width: 35%;
+    min-width: 280px;
     border-right: 1px solid var(--border-color);
+    position: relative;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.panel-right {
+body.left-collapsed .panel-left {
+    width: 0;
+    min-width: 0;
+    border-right: none;
+    overflow: hidden;
+}
+
+.panel-center {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-width: 0;
+}
+
+.panel-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
 }
 
 .panel-editor {
@@ -1122,5 +1141,398 @@ body.ai-open .ai-fab {
 
     .ai-fab-icon {
         font-size: 1.3rem;
+    }
+}
+
+/* =============================================
+   Toolbar Buttons
+   ============================================= */
+
+.toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border-color);
+    margin: 0 var(--spacing-xs);
+}
+
+.panel-collapse-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.panel-collapse-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+}
+
+body.left-collapsed #left-collapse-btn svg {
+    transform: rotate(180deg);
+}
+
+body.cph-collapsed #cph-toggle-btn svg {
+    transform: rotate(180deg);
+}
+
+/* =============================================
+   Left Panel Collapse Handle
+   ============================================= */
+
+.panel-collapse-handle {
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 48px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-left: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+}
+
+.panel-collapse-handle:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+body.left-collapsed .panel-collapse-handle {
+    right: 0;
+    border-left: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+body.left-collapsed .panel-collapse-handle svg {
+    transform: rotate(180deg);
+}
+
+/* =============================================
+   CPH Panel (Right Side)
+   ============================================= */
+
+.cph-panel {
+    width: 30%;
+    min-width: 260px;
+    max-width: 420px;
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.cph-collapsed .cph-panel {
+    width: 0;
+    min-width: 0;
+    border-left: none;
+    overflow: hidden;
+}
+
+.cph-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.cph-subpanel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.cph-subpanel + .cph-subpanel {
+    border-top: 1px solid var(--border-color);
+}
+
+.cph-subpanel-input { flex: 1; }
+.cph-subpanel-output { flex: 1; }
+.cph-subpanel-expected { flex: 0.6; min-height: 50px; }
+
+/* CPH Collapse Handle (left side of panel) */
+.cph-collapse-handle {
+    position: absolute;
+    left: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 48px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+}
+
+.cph-collapse-handle:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+body.cph-collapsed .cph-collapse-handle {
+    left: 0;
+    border-right: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+}
+
+body.cph-collapsed .cph-collapse-handle svg {
+    transform: rotate(180deg);
+}
+
+/* =============================================
+   IO Shared Styles
+   ============================================= */
+
+.io-body {
+    flex: 1;
+    overflow: hidden;
+    padding: var(--spacing-sm) !important;
+    display: flex;
+}
+
+.io-textarea {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: none;
+    resize: none;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding: var(--spacing-sm);
+    outline: none;
+}
+
+.io-output {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding: var(--spacing-sm);
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin: 0;
+}
+
+.io-output.placeholder-text {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.panel-action-btn {
+    padding: 2px var(--spacing-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.panel-action-btn:hover {
+    opacity: 0.8;
+}
+
+/* Run Status */
+.run-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px var(--spacing-sm);
+    border-radius: var(--radius-sm);
+}
+
+.run-status.accepted {
+    color: var(--easy);
+    background: rgba(0, 184, 163, 0.12);
+}
+
+.run-status.wrong {
+    color: var(--hard);
+    background: rgba(255, 55, 95, 0.12);
+}
+
+.run-status.error {
+    color: var(--medium);
+    background: rgba(255, 192, 30, 0.12);
+}
+
+/* Diff Result */
+.diff-result {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px var(--spacing-sm);
+    border-radius: var(--radius-sm);
+}
+
+.diff-result.accepted {
+    color: var(--easy);
+    background: rgba(0, 184, 163, 0.12);
+}
+
+.diff-result.wrong {
+    color: var(--hard);
+    background: rgba(255, 55, 95, 0.12);
+}
+
+/* =============================================
+   Debug Panel (inside CPH)
+   ============================================= */
+
+.debug-panel {
+    display: none;
+    flex-direction: column;
+    border-top: 1px solid var(--border-color);
+}
+
+.debug-panel.open {
+    display: flex;
+}
+
+.debug-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.debug-step-btn {
+    padding: 2px var(--spacing-sm);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.debug-step-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--primary);
+}
+
+.debug-info {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: auto;
+}
+
+.debug-body {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+}
+
+.debug-vars-header {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.debug-var {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+    padding: 2px 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.debug-var-name {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.debug-var-value {
+    color: var(--text-primary);
+}
+
+.debug-var-value.changed {
+    background: rgba(255, 192, 30, 0.15);
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* Breakpoint gutter */
+.breakpoint-marker {
+    color: var(--hard);
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* =============================================
+   Mobile Responsive Updates
+   ============================================= */
+
+@media (max-width: 768px) {
+    .panel-left {
+        width: 100%;
+        min-width: unset;
+        height: 35%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        transition: height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.left-collapsed .panel-left {
+        width: 100%;
+        height: 0;
+    }
+
+    .cph-panel {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 85%;
+        max-width: none;
+        z-index: 20;
+        box-shadow: -4px 0 16px rgba(0,0,0,0.2);
+    }
+
+    body.cph-collapsed .cph-panel {
+        width: 0;
+    }
+
+    .panel-collapse-handle,
+    .cph-collapse-handle {
+        display: none;
     }
 }

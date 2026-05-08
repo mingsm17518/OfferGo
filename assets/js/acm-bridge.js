@@ -45,7 +45,7 @@
             params.push('code=' + encodeURIComponent(encodeB64(data.code)));
             if (data.input) params.push('input=' + encodeURIComponent(encodeB64(data.input)));
             if (data.expected) params.push('expected=' + encodeURIComponent(encodeB64(data.expected)));
-            btn.href = base + '/acm-playground.html?' + params.join('&');
+            btn.href = base + '/playground.html?mode=acm?' + params.join('&');
 
             // 插入到代码块包装器前面
             wrapper.parentNode.insertBefore(btn, wrapper);
