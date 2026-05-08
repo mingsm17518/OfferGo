@@ -96,7 +96,7 @@
                         {% else %}
                         <span class="nav-toggle-gap"></span>
                         {% endif %}
-                        <a href="{{ site.baseurl }}/{{ module.slug }}/index.html"
+                        <a href="{{ site.baseurl }}/{{ module.slug }}/"
                            class="nav-module-link{% if is_open %} is-active{% endif %}">
                             {{ module.title }}
                         </a>
@@ -105,7 +105,7 @@
                     <div class="nav-articles">
                         {% for article in module.articles %}
                         {% assign article_path = module.slug | append: '/' | append: article.slug %}
-                        <a href="{{ site.baseurl }}/{{ article_path }}/index.html"
+                        <a href="{{ site.baseurl }}/{{ article_path }}/"
                            class="nav-article{% if page.url contains article.slug %} is-current{% endif %}">
                             {{ article.title }}
                         </a>
@@ -129,7 +129,7 @@
                             <div class="nav-group-items">
                                 {% for article in group.articles %}
                                 {% assign article_path = module.slug | append: '/' | append: article.slug %}
-                                <a href="{{ site.baseurl }}/{{ article_path }}/index.html"
+                                <a href="{{ site.baseurl }}/{{ article_path }}/"
                                    class="nav-article{% if page.url contains article.slug %} is-current{% endif %}">
                                     {{ article.title }}
                                 </a>
