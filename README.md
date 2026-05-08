@@ -9,7 +9,7 @@
 [![AI Coach](https://img.shields.io/badge/AI-刷题助手-blueviolet.svg)](#-ai-刷题助手)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[在线练习场](playground.html) • [ACM 模拟](acm-playground.html) • [AI 助手](#-ai-刷题助手) • [大厂真题](04_real_interviews/)
+[在线练习场](playground.html) • [AI 助手](#-ai-刷题助手) • [大厂真题](04_real_interviews/)
 
 </div>
 
@@ -23,7 +23,7 @@ OfferGo 专为**计算机求职者**设计，从 Python 零基础到通过大厂
 
 - 🏢 **14 家大厂真题** — 阿里、字节、华为、美团等笔试面试真题，按公司分类
 - 🖥️ **在线练习场** — 内置 98 道 Hot 100 题目，浏览器直接运行 Python
-- 🎯 **ACM 模拟 IDE** — 模拟大厂笔试 ACM 模式，支持 stdin/stdout 和断点调试
+- 🎯 **ACM 模式** — 刷题界面内置 ACM 模式，支持 stdin/stdout
 - 🤖 **AI 刷题助手** — 内置 AI 教练，自动读取题目和代码，给出诊断和提示
 - 🗺️ **6 阶段学习体系** — 从 Python 基础到面试八股文，循序渐进
 - 📝 **完整题解** — LeetCode Hot 100 全部题解
@@ -62,7 +62,7 @@ bundle exec jekyll serve --watch
 > echo 'export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/4.0.0/bin:$PATH"' >> ~/.zshrc
 > ```
 
-### 方式二：纯静态（仅需练习场和 ACM IDE）
+### 方式二：纯静态（仅需练习场）
 
 ```bash
 git clone https://github.com/mingsm17518/OfferGo.git
@@ -70,7 +70,6 @@ cd OfferGo
 python3 -m http.server 8080
 # 首页:          http://localhost:8080
 # 在线练习场:    http://localhost:8080/playground.html
-# ACM 模拟 IDE:  http://localhost:8080/acm-playground.html
 ```
 
 > 注意：纯静态模式下，Jekyll 生成的页面（`_site/` 目录中的内容）可能无法正确显示。
@@ -112,24 +111,6 @@ AI 刷题助手会**自动读取你当前正在做的题目和编写的代码**�
 4. AI 自动注入当前题目 + 你的代码作为上下文，给出针对性回答
 
 > 默认免费可用，内置 OpenRouter 免费 API。如需使用自己的 API，点击齿轮图标 ⚙️ 配置。
-
----
-
-## ACM 模拟 IDE
-
-> **模拟大厂笔试真实环境** — 直接粘贴真题代码，输入测试数据，一键运行
-
-大厂笔试（阿里、美团、华为等）普遍使用 **ACM 模式**：通过 `input()` 读取输入、`print()` 输出结果，和 LeetCode 的函数式调用完全不同。
-
-### 核心功能
-
-| 功能 | 说明 |
-|------|------|
-| 📥 stdin/stdout | 完整支持 `input()` / `print()`，粘贴测试数据即可运行 |
-| 📝 输入模板 | 7 种常用模板（单整数、数组、矩阵、多组用例、图等） |
-| ✅ 输出对比 | 填入期望输出，自动判定 ACCEPTED / WRONG ANSWER |
-| 🐛 断点调试 | 点击行号设置断点，逐行回放执行过程，查看变量变化 |
-| 💾 自动保存 | 代码和输入自动保存到浏览器，刷新不丢失 |
 
 ---
 
@@ -341,8 +322,7 @@ AI 刷题助手会**自动读取你当前正在做的题目和编写的代码**�
 ```
 OfferGo/
 ├── index.html                   # 首页（学习路线 + 功能介绍）
-├── playground.html              # 在线练习场（含 AI 助手）
-├── acm-playground.html          # ACM 模拟 IDE
+├── playground.html              # 在线练习场（含 AI 助手 + ACM 模式）
 ├── problems.html                # 题库页面
 ├── _config.yml                  # Jekyll 配置
 │

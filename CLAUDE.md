@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-OfferGo is a personal algorithm interview prep platform focused on real company interview questions. Built on Jekyll, deployed to GitHub Pages, written primarily in Chinese. Features an online playground with in-browser Python execution (ACM stdin/stdout mode only), an ACM-style IDE, and an AI coding assistant. Originally forked from Zero2Leetcode.
+OfferGo is a personal algorithm interview prep platform focused on real company interview questions. Built on Jekyll, deployed to GitHub Pages, written primarily in Chinese. Features an online playground with in-browser Python execution (ACM stdin/stdout mode only) and an AI coding assistant. Originally forked from Zero2Leetcode.
 
 ## Commands
 
@@ -12,7 +12,6 @@ OfferGo is a personal algorithm interview prep platform focused on real company 
 # Local dev server (no Jekyll required for basic dev)
 python3 -m http.server 8080
 # Playground: http://localhost:8080/playground.html
-# ACM IDE:    http://localhost:8080/acm-playground.html
 
 # Rebuild problem data after adding/editing problems
 python3 build_problems.py
@@ -23,20 +22,19 @@ bundle exec jekyll build
 
 ## Architecture
 
-### Three Interactive Pages
+### Two Interactive Pages
 
 - **`index.html`** — Landing page with learning roadmap. Loads `app.js` for navigation and theme toggling.
 - **`playground.html`** — Browser-based OJ. All problems use ACM stdin/stdout mode. Loads Pyodide (Python-in-browser via WebAssembly) and CodeMirror 5 editor. Core logic in `playground.js`, AI assistant in `ai-assistant.js`.
-- **`acm-playground.html`** — Standalone ACM-style IDE simulating real interview environments. Logic in `acm-playground.js` + `acm-bridge.js`.
 
 ### JavaScript Data Flow
 
 Problem data comes from two sources:
 
 1. **`problems/` directory** — Each problem has a folder with `problem.md` (YAML frontmatter + Markdown description), optional `testcases.json`, and optional `solution.py`. This is the source of truth.
-2. **`build_problems.py`** — Scans `problems/` and generates `assets/js/problems-data.js` (metadata array) and copies test cases to `assets/js/testcases/`.
+2. **`build_problems.py`** — Scans `problems/` and generates `assets/js/problems-data.js` (metadata array), copies test cases to `assets/js/testcases/`, and pre-builds HTML descriptions to `assets/js/problem-html/`.
 
-At runtime, `playground.js` loads `problems-data.js` for the sidebar list. When a problem is selected, `fetchProblemDetail(id)` fetches `problem.md` (rendered to HTML via marked.js) and `solution.py` (used as editor template) on demand. Problems without these files get auto-generated fallback via `buildFallbackProblem()`.
+At runtime, `playground.js` loads `problems-data.js` for the sidebar list. When a problem is selected, `fetchProblemDetail(id)` fetches pre-built HTML from `assets/js/problem-html/{id}.html` and `solution.py` (used as editor template) on demand. Problems without these files get auto-generated fallback via `buildFallbackProblem()`.
 
 ### Test Case System
 
@@ -78,7 +76,7 @@ Python solutions live in `problems/{id}/solution.py` (used as editor template). 
 - Jekyll excludes `*.py` and `__pycache__` from the build output.
 - Navigation is defined in `_data/nav.yml`. To add a new section, add a module entry with `docs/` prefixed slug and create the corresponding content directory under `docs/`.
 - New articles use `layout: default` with frontmatter (`title`, `description`, `eyebrow`). Article permalinks use `/docs/` prefix.
-- CSS is split per page: `style.css` (global), `playground.css`, `acm-playground.css`. Theme support (light/dark) uses CSS custom properties. Primary color is blue (`--primary-hue: 217`).
+- CSS is split per page: `style.css` (global), `playground.css`. Theme support (light/dark) uses CSS custom properties. Primary color is blue (`--primary-hue: 217`).
 
 ## Adding a New Problem
 
