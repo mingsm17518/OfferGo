@@ -52,9 +52,11 @@ def scan_problems():
         prob_dir = os.path.join(PROBLEMS_DIR, name)
         if not os.path.isdir(prob_dir):
             continue
-        md_path = os.path.join(prob_dir, 'problem.txt')
+        md_path = os.path.join(prob_dir, 'problem.md')
         if not os.path.exists(md_path):
-            print(f'  Warning: {name}/ has no problem.txt, skipping')
+            md_path = os.path.join(prob_dir, 'problem.txt')
+        if not os.path.exists(md_path):
+            print(f'  Warning: {name}/ has no problem.md, skipping')
             continue
 
         with open(md_path, 'r', encoding='utf-8') as f:
@@ -183,14 +185,16 @@ def generate_problems_js(problems):
 
 
 def generate_problem_html():
-    """将 problems/*/problem.txt 转为 assets/js/problem-html/{id}.html"""
+    """将 problems/*/problem.md 转为 assets/js/problem-html/{id}.html"""
     os.makedirs(HTML_DIR, exist_ok=True)
     generated = 0
     for name in sorted(os.listdir(PROBLEMS_DIR)):
         prob_dir = os.path.join(PROBLEMS_DIR, name)
         if not os.path.isdir(prob_dir):
             continue
-        src = os.path.join(prob_dir, 'problem.txt')
+        src = os.path.join(prob_dir, 'problem.md')
+        if not os.path.exists(src):
+            src = os.path.join(prob_dir, 'problem.txt')
         if not os.path.exists(src):
             continue
         with open(src, 'r', encoding='utf-8') as f:
