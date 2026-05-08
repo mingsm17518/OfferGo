@@ -9,7 +9,7 @@
 [![AI Coach](https://img.shields.io/badge/AI-刷题助手-blueviolet.svg)](#-ai-刷题助手)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-[在线练习场](playground.html) • [AI 助手](#-ai-刷题助手) • [大厂真题](04_real_interviews/)
+[在线练习场](playground.html) • [大厂真题](04_real_interviews/) • [面试经验](05_interview/) • [AI 助手](#-ai-刷题助手)
 
 </div>
 
@@ -323,7 +323,7 @@ AI 刷题助手会**自动读取你当前正在做的题目和编写的代码**�
 OfferGo/
 ├── index.html                   # 首页（学习路线 + 功能介绍）
 ├── playground.html              # 在线练习场（含 AI 助手 + ACM 模式）
-├── problems.html                # 题库页面
+├── problems.html                # 题目清单页面
 ├── _config.yml                  # Jekyll 配置
 │
 ├── assets/

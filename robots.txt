@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://onefly.top/zero2Leetcode/sitemap.xml
