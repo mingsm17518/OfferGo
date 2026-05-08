@@ -14,20 +14,14 @@ async function fetchProblemDetail(id) {
 
     const result = { description: null, template: null };
 
-    // 加载题目描述
-    // Jekyll 部署时 .md 被转为 .html，本地开发时保持 .md
+    // 加载题目描述（.txt 文件，Jekyll 不处理，原样复制）
     try {
-        let htmlResp = await fetch(`problems/${id}/problem.html`);
-        if (htmlResp.ok) {
-            result.description = await htmlResp.text();
-        } else {
-            const mdResp = await fetch(`problems/${id}/problem.md`);
-            if (mdResp.ok) {
-                const mdText = await mdResp.text();
-                const body = mdText.replace(/^---\s*\n.*?\n---\s*\n?/s, '');
-                if (body.trim()) {
-                    result.description = marked.parse(body);
-                }
+        const txtResp = await fetch(`problems/${id}/problem.txt`);
+        if (txtResp.ok) {
+            const text = await txtResp.text();
+            const body = text.replace(/^---\s*\n.*?\n---\s*\n?/s, '');
+            if (body.trim()) {
+                result.description = marked.parse(body);
             }
         }
     } catch (e) { /* ignore */ }

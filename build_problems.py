@@ -50,9 +50,9 @@ def scan_problems():
         prob_dir = os.path.join(PROBLEMS_DIR, name)
         if not os.path.isdir(prob_dir):
             continue
-        md_path = os.path.join(prob_dir, 'problem.md')
+        md_path = os.path.join(prob_dir, 'problem.txt')
         if not os.path.exists(md_path):
-            print(f'  Warning: {name}/ has no problem.md, skipping')
+            print(f'  Warning: {name}/ has no problem.txt, skipping')
             continue
 
         with open(md_path, 'r', encoding='utf-8') as f:
