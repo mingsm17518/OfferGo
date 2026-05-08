@@ -14,15 +14,11 @@ async function fetchProblemDetail(id) {
 
     const result = { description: null, template: null };
 
-    // 加载题目描述（.txt 文件，Jekyll 不处理，原样复制）
+    // 加载预构建的题目描述 HTML
     try {
-        const txtResp = await fetch(`problems/${id}/problem.txt`);
-        if (txtResp.ok) {
-            const text = await txtResp.text();
-            const body = text.replace(/^---\s*\n.*?\n---\s*\n?/s, '');
-            if (body.trim()) {
-                result.description = marked.parse(body);
-            }
+        const htmlResp = await fetch(`assets/js/problem-html/${id}.html`);
+        if (htmlResp.ok) {
+            result.description = await htmlResp.text();
         }
     } catch (e) { /* ignore */ }
 

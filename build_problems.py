@@ -10,10 +10,12 @@ import os
 import json
 import re
 import shutil
+import markdown
 
 PROBLEMS_DIR = 'problems'
 OUTPUT_JS = 'assets/js/problems-data.js'
 TESTCASES_DIR = 'assets/js/testcases'
+HTML_DIR = 'assets/js/problem-html'
 
 
 def parse_frontmatter(content):
@@ -180,6 +182,30 @@ def generate_problems_js(problems):
         f.write(content)
 
 
+def generate_problem_html():
+    """将 problems/*/problem.txt 转为 assets/js/problem-html/{id}.html"""
+    os.makedirs(HTML_DIR, exist_ok=True)
+    generated = 0
+    for name in sorted(os.listdir(PROBLEMS_DIR)):
+        prob_dir = os.path.join(PROBLEMS_DIR, name)
+        if not os.path.isdir(prob_dir):
+            continue
+        src = os.path.join(prob_dir, 'problem.txt')
+        if not os.path.exists(src):
+            continue
+        with open(src, 'r', encoding='utf-8') as f:
+            content = f.read()
+        _, body = parse_frontmatter(content)
+        if not body.strip():
+            continue
+        html = markdown.markdown(body, extensions=['fenced_code', 'tables'])
+        dst = os.path.join(HTML_DIR, f'{name}.html')
+        with open(dst, 'w', encoding='utf-8') as f:
+            f.write(html)
+        generated += 1
+    return generated
+
+
 def main():
     print('Scanning problems/ directory...')
     problems = scan_problems()
@@ -196,6 +222,10 @@ def main():
     print(f'\nCopying testcases to {TESTCASES_DIR}/...')
     copied = copy_testcases()
     print(f'  Copied {copied} files')
+
+    print(f'\nGenerating problem HTML to {HTML_DIR}/...')
+    generated = generate_problem_html()
+    print(f'  Generated {generated} files')
 
     print(f'\nGenerating {OUTPUT_JS}...')
     generate_problems_js(problems)
