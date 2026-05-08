@@ -10,9 +10,10 @@ plugins:
 include:
   - docs
   - _data
+  - problems
 
 exclude:
   - README.md
   - requirements.txt
-  - "*.py"
+  - build_problems.py
   - __pycache__

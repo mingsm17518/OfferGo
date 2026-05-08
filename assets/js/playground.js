@@ -2,225 +2,50 @@
 // OfferGo Playground - 在线 OJ
 // =============================================
 
-// ---------- 链表基础设施（注入到 Python 环境）----------
-const LINKED_LIST_SETUP = `
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
-    def __repr__(self):
-        vals = []
-        node = self
-        while node:
-            vals.append(str(node.val))
-            node = node.next
-        return ' -> '.join(vals)
-
-def _to_linked_list(arr):
-    dummy = ListNode()
-    curr = dummy
-    for v in arr:
-        curr.next = ListNode(v)
-        curr = curr.next
-    return dummy.next
-
-def _to_array(node):
-    result = []
-    while node:
-        result.append(node.val)
-        node = node.next
-    return result
-`;
-
-// ---------- 二叉树基础设施（注入到 Python 环境）----------
-const BINARY_TREE_SETUP = `
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-    def __repr__(self):
-        return f'TreeNode({self.val})'
-
-def _to_tree(arr):
-    if not arr or arr[0] is None:
-        return None
-    root = TreeNode(arr[0])
-    queue = [root]
-    i = 1
-    while queue and i < len(arr):
-        node = queue.pop(0)
-        if i < len(arr) and arr[i] is not None:
-            node.left = TreeNode(arr[i])
-            queue.append(node.left)
-        i += 1
-        if i < len(arr) and arr[i] is not None:
-            node.right = TreeNode(arr[i])
-            queue.append(node.right)
-        i += 1
-    return root
-
-def _tree_to_array(root):
-    if not root:
-        return []
-    result = []
-    queue = [root]
-    while queue:
-        node = queue.pop(0)
-        if node:
-            result.append(node.val)
-            queue.append(node.left)
-            queue.append(node.right)
-        else:
-            result.append(None)
-    while result and result[-1] is None:
-        result.pop()
-    return result
-`;
-
 // ---------- 题目数据 ----------
-const DETAILED_PROBLEMS = [
-    {
-        id: 'hw-browser',
-        title: '华为机考 - 浏览器地址栏',
-        difficulty: 'Medium',
-        tags: ['华为机考', '栈', '模拟'],
-        description: `
-<h3>浏览器地址栏 <span class="difficulty-tag medium">Medium</span> <span style="font-size:0.75rem;color:var(--text-muted);">华为 2026.4.15 研发岗笔试</span></h3>
-<p>小明正在开发浏览器地址栏功能，支持四种操作：<code>visit</code>（访问网页）、<code>back</code>（返回上一页）、<code>forward</code>（前进到下一页）、<code>print</code>（输出当前地址）。</p>
+// DETAILED_PROBLEMS 已迁移到 problems/ 文件夹，运行时按需加载
+const DETAILED_PROBLEMS = [];
 
-<h4>初始状态</h4>
-<ul>
-<li>当前页面为 <code>Blank</code>，历史记录中只有 1 个 <code>Blank</code> 页面</li>
-<li>最多保存 <code>max_history</code> 个历史记录</li>
-<li>每次访问新页面时清空前进记录</li>
-</ul>
+// 题目详情缓存
+const problemDetailCache = {};
 
-<h4>操作说明</h4>
-<ul>
-<li><strong>visit url</strong>：当前页面更新为该网页，加入历史记录；若超过 max_history 则删除最早记录；清空前进记录</li>
-<li><strong>back</strong>：若历史记录至少有两个页面，切换到上一页，原当前页面加入前进记录；否则不做操作</li>
-<li><strong>forward</strong>：若前进记录不为空，切换到下一页，该页面加入历史记录；否则不做操作</li>
-<li><strong>print</strong>：输出当前页面地址，若为 Blank 则输出 Blank</li>
-</ul>
+async function fetchProblemDetail(id) {
+    if (problemDetailCache[id]) return problemDetailCache[id];
 
-<h4>输入描述</h4>
-<p>第一行：整数 n（操作数 1 ≤ n ≤ 200）<br>
-第二行：整数 max_history（0 < max_history < 100）<br>
-接下来 n 行：操作命令</p>
+    const result = { description: null, template: null };
 
-<h4>输出描述</h4>
-<p>每次 print 操作输出当前地址，若无访问过任何页面则输出 Blank</p>
+    // 加载题目描述（Markdown → HTML）
+    try {
+        const mdResp = await fetch(`problems/${id}/problem.md`);
+        if (mdResp.ok) {
+            const mdText = await mdResp.text();
+            // 去掉 YAML frontmatter
+            const body = mdText.replace(/^---\s*\n.*?\n---\s*\n?/s, '');
+            if (body.trim()) {
+                result.description = marked.parse(body);
+            }
+        }
+    } catch (e) { /* ignore */ }
 
-<h4>样例1</h4>
-<pre>输入：
-7
-10
-visit a.com
-visit b.com
-back
-visit c.com
-print
-forward
-print
+    // 加载模板/参考代码
+    try {
+        const pyResp = await fetch(`problems/${id}/solution.py`);
+        if (pyResp.ok) {
+            result.template = await pyResp.text();
+        }
+    } catch (e) { /* ignore */ }
 
-输出：
-c.com
-c.com</pre>
-<p>back 后前进记录为 b.com；后续 visit 清空前进记录，因此 forward 无操作。</p>
+    problemDetailCache[id] = result;
+    return result;
+}
 
-<h4>样例2</h4>
-<pre>输入：
-7
-3
-visit a.com
-visit b.com
-visit c.com
-visit d.com
-back
-forward
-print
+// 判断 PROBLEMS_DATA 中的题目是否有详细数据
+function metaHasDetail(meta) {
+    return meta.testcaseFile || meta.hasSolution;
+}
 
-输出：
-d.com</pre>
+// ---------- 辅助函数 ----------
 
-<h4>样例3</h4>
-<pre>输入：
-9
-3
-visit a.com
-visit b.com
-visit c.com
-visit d.com
-visit e.com
-back
-back
-back
-print
-
-输出：
-c.com</pre>
-<p>容量为 3，历史记录为 c.com、d.com、e.com，三次 back 后当前页面为 c.com。</p>
-
-<h4>样例4</h4>
-<pre>输入：
-4
-10
-back
-print
-forward
-print
-
-输出：
-Blank
-Blank</pre>
-
-<h4>样例5</h4>
-<pre>输入：
-4
-10
-visit abc.com
-visit abc.com
-back
-print
-
-输出：
-abc.com</pre>
-<p>访问两次相同页面，历史记录为 Blank、abc.com、abc.com，back 后当前页面为 abc.com。</p>`,
-        template: `n = int(input())
-max_c = int(input())
-
-from collections import deque
-d = deque(["Blank"])
-sta = []
-
-for _ in range(n):
-    s = input().split()
-
-    # visit
-    if s[0] == 'visit':
-        d.append(s[1])
-        if len(d) > max_c:
-            d.popleft()
-        sta.clear()
-
-    # back
-    if s[0] == 'back':
-        pass
-
-    # forward
-    if s[0] == 'forward':
-        pass
-
-    # print
-    if s[0] == 'print':
-        print(d[-1])
-`,
-        isACM: true,
-        testStdin: '7\n10\nvisit a.com\nvisit b.com\nback\nvisit c.com\nprint\nforward\nprint',
-        testExpected: 'c.com\nc.com',
-    },
-];
 
 const FALLBACK_CATEGORY_NAMES = {
     "hash": "哈希表",
@@ -275,19 +100,20 @@ function buildFallbackProblem(meta) {
     const title = prefix ? `${prefix} ${meta.id} - ${meta.title}` : `${meta.id} - ${meta.title}`;
     const difficultyText = getDifficultyName(meta.difficulty);
     const categoryText = getCategoryName(meta.category);
-    const solutionUrl = platform === 'leetcode'
-        ? meta.url.replace(/\/$/, '') + '/solutions/'
-        : meta.url;
+    const solutionUrl = meta.url;
     const platformLabel = { leetcode: 'LeetCode', codeforces: 'Codeforces', nowcoder: '牛客', huawei: '华为机考' }[platform] || '外部平台';
-    const blogTip = meta.blogUrl
-        ? '<p>这道题已经有博客详解，可以直接查看解法。</p>'
-        : `<p>该题暂未接入本地测试用例，可以跳转 ${platformLabel} 练习。</p>`;
+    const hasDetail = metaHasDetail(meta);
+    const blogTip = hasDetail
+        ? '<p>正在加载题目详情...</p>'
+        : (meta.blogUrl
+            ? '<p>这道题已经有博客详解，可以直接查看解法。</p>'
+            : `<p>该题暂未接入本地测试用例，可以跳转 ${platformLabel} 练习。</p>`);
 
     return {
         id: meta.id,
         title,
         difficulty: normalizeDifficulty(meta.difficulty),
-        tags: [categoryText],
+        tags: meta.tags || [categoryText],
         description: `
 <h3>${meta.id}. ${escapeHtml(meta.title)} <span class="difficulty-tag ${meta.difficulty}">${escapeHtml(difficultyText)}</span></h3>
 <p>该题已经加入 OfferGo 题单，但当前页面还没有接入本地测试用例和专用模板。</p>
@@ -297,16 +123,17 @@ ${blogTip}
 <li>难度：${escapeHtml(difficultyText)}</li>
 <li>来源：${platformLabel}</li>
 </ul>`,
-        template: `def solve(*args):
+        template: `import sys
+
+def solve():
     """
     ${platformLabel} ${meta.id}. ${meta.title}
-    当前题目暂未接入本地测试用例。
     """
+    data = sys.stdin.read().split()
     pass
+
+solve()
 `,
-        functionName: 'solve',
-        testCases: [],
-        compareFunc: 'equal',
         solutionUrl,
         blogUrl: meta.blogUrl || null,
         isFallback: true,
@@ -325,21 +152,20 @@ function getAllDetailedProblems() {
 }
 
 function buildPlaygroundProblems() {
-    const detailedById = new Map(getAllDetailedProblems().map(problem => [problem.id, problem]));
     const allProblems = (typeof window !== 'undefined' && Array.isArray(window.PROBLEMS_DATA) && window.PROBLEMS_DATA.length)
         ? window.PROBLEMS_DATA
-        : DETAILED_PROBLEMS.map(problem => ({
-            id: problem.id,
-            title: problem.title.replace(/^LC\s+\d+\s*-\s*/, ''),
-            difficulty: (problem.difficulty || '').toLowerCase(),
-            category: '',
-            url: problem.solutionUrl ? problem.solutionUrl.replace(/\/solutions\/$/, '/') : '',
-            blogUrl: problem.blogUrl || null,
-        }));
+        : [];
 
-    const baseProblems = allProblems.map(meta => detailedById.get(meta.id) || buildFallbackProblem(meta));
-    const baseIds = new Set(allProblems.map(p => p.id));
-    const extraOnly = getExtraDetailedProblems().filter(p => !baseIds.has(p.id));
+    const baseProblems = allProblems.map(meta => {
+        if (metaHasDetail(meta)) {
+            const fallback = buildFallbackProblem(meta);
+            fallback.hasDetail = true;
+            fallback.testcaseFile = meta.testcaseFile || null;
+            return fallback;
+        }
+        return buildFallbackProblem(meta);
+    });
+    const extraOnly = getExtraDetailedProblems();
     return [...baseProblems, ...extraOnly];
 }
 
@@ -561,42 +387,52 @@ function initProblemSelect() {
     });
 }
 
-function loadProblem(problem) {
+async function loadProblem(problem) {
     currentProblem = problem;
     window.currentProblem = problem; // expose for AI assistant
-    document.getElementById('problem-description').innerHTML = problem.description;
+
     const footer = document.getElementById('problem-footer');
+    let btns = '';
     if (problem.solutionUrl) {
-        const lcUrl = problem.solutionUrl.replace(/solutions\/$/, '');
-        let btns = `<a href="${problem.solutionUrl}" target="_blank" rel="noopener" class="solution-btn">查看题解 ↗</a>`
-            + `<a href="${lcUrl}" target="_blank" rel="noopener" class="solution-btn leetcode-btn">LeetCode 提交 ↗</a>`;
-        if (problem.blogUrl) {
-            btns += `<a href="${problem.blogUrl}" target="_blank" rel="noopener" class="solution-btn blog-btn">查看博客 ↗</a>`;
-        }
-        footer.innerHTML = btns;
-        footer.style.display = '';
-    } else {
-        footer.innerHTML = '';
-        footer.style.display = 'none';
+        btns += `<a href="${problem.solutionUrl}" target="_blank" rel="noopener" class="solution-btn">查看题目 ↗</a>`;
     }
-    // 优先从缓存恢复代码
+    if (problem.blogUrl) {
+        btns += `<a href="${problem.blogUrl}" target="_blank" rel="noopener" class="solution-btn blog-btn">查看博客 ↗</a>`;
+    }
+    footer.innerHTML = btns;
+    footer.style.display = btns ? '' : 'none';
+
+    // 设置描述：先显示 fallback，有详细数据时异步替换
+    document.getElementById('problem-description').innerHTML = problem.description;
+
+    // 优先从缓存恢复代码，否则用 fallback 模板
     const cached = loadCode(problem.id);
     editor.setValue(cached || problem.template);
     clearOutput();
 
-    // ACM 题目：自动展开 CPH 面板并预填数据
-    if (problem.isACM) {
-        document.body.classList.remove('cph-collapsed');
-        if (problem.testStdin) {
-            document.getElementById('stdin-area').value = problem.testStdin;
+    // 展开 CPH 面板
+    document.body.classList.remove('cph-collapsed');
+
+    // 如果题目有详细数据（problems/ 文件夹），异步加载
+    if (problem.hasDetail) {
+        const detail = await fetchProblemDetail(problem.id);
+        if (detail.description) {
+            document.getElementById('problem-description').innerHTML = detail.description;
         }
-        if (problem.testExpected) {
-            document.getElementById('expected-area').value = problem.testExpected;
+        if (detail.template && !cached) {
+            editor.setValue(detail.template);
+        }
+    }
+
+    // 预填第一组测试数据（如果有评测文件）
+    if (problem.testcaseFile) {
+        const cases = await loadTestcases(problem);
+        if (cases && cases.length > 0) {
+            document.getElementById('stdin-area').value = cases[0].stdin;
+            document.getElementById('expected-area').value = cases[0].expected;
         }
         document.getElementById('output-area').innerHTML =
-            '<div class="output-placeholder">该题为 ACM 模式（stdin/stdout），请使用右侧 CPH 评测面板运行代码。</div>';
-        document.getElementById('result-summary').textContent = 'ACM 模式 - 请使用 CPH 面板运行';
-        document.getElementById('result-summary').className = 'result-summary';
+            `<div class="output-placeholder">已加载评测数据，点击「运行」测试全部用例（${problem.testcaseFile}）。</div>`;
     }
 }
 
@@ -700,6 +536,24 @@ function bindEvents() {
 }
 
 // ---------- 代码执行 ----------
+// ---------- 评测数据缓存 ----------
+const testcaseCache = {};
+
+async function loadTestcases(problem) {
+    if (!problem.testcaseFile) return null;
+    if (testcaseCache[problem.testcaseFile]) return testcaseCache[problem.testcaseFile];
+    try {
+        const resp = await fetch('assets/js/testcases/' + problem.testcaseFile + '.json');
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        testcaseCache[problem.testcaseFile] = data.cases || [];
+        return testcaseCache[problem.testcaseFile];
+    } catch (e) {
+        console.error('Failed to load testcases:', e);
+        return null;
+    }
+}
+
 async function runCode() {
     if (!pyodide) return;
 
@@ -713,35 +567,63 @@ async function runCode() {
 
     const userCode = editor.getValue();
     const problem = currentProblem;
-    const testCases = Array.isArray(problem.testCases) ? problem.testCases : [];
+    const cases = await loadTestcases(problem);
 
-    if (!testCases.length) {
-        summary.textContent = '当前题目暂未接入本地测试';
+    if (!cases || !cases.length) {
+        summary.textContent = '暂无评测数据';
         summary.className = 'result-summary';
-        outputArea.innerHTML = `
-<div class="output-placeholder">
-    该题已支持按题号跳转，但当前页面还没有配置本地测试用例。<br>
-    请使用下方按钮前往 LeetCode 提交，或查看博客详解。
-</div>`;
+        outputArea.innerHTML = '<div class="output-placeholder">该题暂未配置评测数据，请使用右侧 CPH 面板手动测试。</div>';
         runBtn.disabled = false;
-        runBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z"/></svg> 运行代码`;
+        runBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z"/></svg> 运行';
         return;
     }
 
     let passed = 0;
-    const total = testCases.length;
+    const total = cases.length;
     const totalStart = performance.now();
 
     for (let i = 0; i < total; i++) {
-        const tc = testCases[i];
-        const result = await runTestCase(userCode, problem, tc, i + 1);
-        outputArea.appendChild(result.element);
-        if (result.passed) passed++;
+        const tc = cases[i];
+        const div = document.createElement('div');
+        const t0 = performance.now();
+
+        try {
+            const result = await executePythonStdin(userCode, tc.stdin);
+            const elapsed = (performance.now() - t0).toFixed(1);
+            const actual = (result.stdout || '').trimEnd();
+            const expected = (tc.expected || '').trimEnd();
+            const pass = actual === expected;
+
+            if (pass) passed++;
+            div.className = `test-case ${pass ? 'pass' : 'fail'}`;
+            div.innerHTML = `
+<div class="test-header">
+    <span class="test-icon">${pass ? '&#10004;' : '&#10008;'}</span>
+    <span class="test-label">测试 #${i + 1}</span>
+    <span class="test-time">${elapsed} ms</span>
+    <span class="test-status ${pass ? 'pass' : 'fail'}">${pass ? '通过' : '失败'}</span>
+</div>
+${pass ? '' : `<div class="test-detail">
+    <div class="test-row"><span class="test-key">输入：</span><pre>${escapeHtml(tc.stdin)}</pre></div>
+    <div class="test-row"><span class="test-key">预期：</span><code>${escapeHtml(expected)}</code></div>
+    <div class="test-row"><span class="test-key">实际：</span><code>${escapeHtml(actual)}</code></div>
+</div>`}`;
+        } catch (err) {
+            div.className = 'test-case error';
+            div.innerHTML = `
+<div class="test-header">
+    <span class="test-icon">&#10008;</span>
+    <span class="test-label">测试 #${i + 1}</span>
+    <span class="test-status fail">错误</span>
+</div>
+<div class="test-detail">
+    <div class="test-row error-msg"><span class="test-key">错误：</span><code>${escapeHtml(String(err))}</code></div>
+</div>`;
+        }
+        outputArea.appendChild(div);
     }
 
     const totalTime = (performance.now() - totalStart).toFixed(1);
-
-    // 更新总结
     if (passed === total) {
         summary.textContent = `${passed}/${total} 全部通过  ${totalTime} ms`;
         summary.className = 'result-summary all-pass';
@@ -751,113 +633,7 @@ async function runCode() {
     }
 
     runBtn.disabled = false;
-    runBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z"/></svg> 运行代码`;
-}
-
-async function runTestCase(userCode, problem, testCase, index) {
-    const div = document.createElement('div');
-
-    try {
-        // 构建 Python 代码：setup + 用户函数 + 调用
-        const argsStr = testCase.input.map((arg, i) => {
-            const repr = pythonRepr(arg);
-            const wrapper = problem.argWrappers?.[i];
-            return wrapper ? `${wrapper}(${repr})` : repr;
-        }).join(', ');
-        const callExpr = `${problem.functionName}(${argsStr})`;
-        const resultExpr = problem.returnWrapper
-            ? `${problem.returnWrapper}(${callExpr})`
-            : callExpr;
-        const fullCode = `
-${problem.setup || ''}
-${userCode}
-
-__result__ = ${resultExpr}
-`;
-        const t0 = performance.now();
-        await pyodide.runPythonAsync(fullCode);
-        const elapsed = (performance.now() - t0).toFixed(1);
-        const actual = pyodide.globals.get('__result__');
-        const actualJS = toJS(actual);
-
-        const pass = compareResults(actualJS, testCase.expected, problem.compareFunc);
-
-        div.className = `test-case ${pass ? 'pass' : 'fail'}`;
-        div.innerHTML = `
-<div class="test-header">
-    <span class="test-icon">${pass ? '&#10004;' : '&#10008;'}</span>
-    <span class="test-label">测试用例 ${index}</span>
-    <span class="test-time">${elapsed} ms</span>
-    <span class="test-status ${pass ? 'pass' : 'fail'}">${pass ? '通过' : '失败'}</span>
-</div>
-<div class="test-detail">
-    <div class="test-row"><span class="test-key">输入：</span><code>${formatInput(problem, testCase.input)}</code></div>
-    <div class="test-row"><span class="test-key">预期：</span><code>${JSON.stringify(testCase.expected)}</code></div>
-    <div class="test-row"><span class="test-key">实际：</span><code>${JSON.stringify(actualJS)}</code></div>
-</div>`;
-
-        return { element: div, passed: pass };
-    } catch (err) {
-        div.className = 'test-case error';
-        div.innerHTML = `
-<div class="test-header">
-    <span class="test-icon">&#10008;</span>
-    <span class="test-label">测试用例 ${index}</span>
-    <span class="test-status fail">错误</span>
-</div>
-<div class="test-detail">
-    <div class="test-row"><span class="test-key">输入：</span><code>${formatInput(problem, testCase.input)}</code></div>
-    <div class="test-row error-msg"><span class="test-key">错误：</span><code>${escapeHtml(extractError(err))}</code></div>
-</div>`;
-        return { element: div, passed: false };
-    }
-}
-
-// ---------- 工具函数 ----------
-function pythonRepr(val) {
-    if (val === null || val === undefined) return 'None';
-    if (typeof val === 'boolean') return val ? 'True' : 'False';
-    if (typeof val === 'number') return String(val);
-    if (typeof val === 'string') return JSON.stringify(val);
-    if (Array.isArray(val)) return '[' + val.map(pythonRepr).join(', ') + ']';
-    return JSON.stringify(val);
-}
-
-function toJS(pyVal) {
-    if (pyVal === undefined || pyVal === null) return null;
-    if (typeof pyVal === 'number' || typeof pyVal === 'string' || typeof pyVal === 'boolean') return pyVal;
-    if (pyVal.toJs) {
-        const jsVal = pyVal.toJs({ dict_converter: Object.fromEntries });
-        if (jsVal instanceof Map) return Array.from(jsVal.values());
-        return jsVal;
-    }
-    return pyVal;
-}
-
-function compareResults(actual, expected, mode) {
-    if (mode === 'sorted') {
-        if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
-        return JSON.stringify([...actual].sort()) === JSON.stringify([...expected].sort());
-    }
-    if (mode === 'sorted_nested') {
-        if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
-        const normalize = arr => arr
-            .map(x => Array.isArray(x) ? [...x].sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))) : x)
-            .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)));
-        return JSON.stringify(normalize(actual)) === JSON.stringify(normalize(expected));
-    }
-    // 'equal' default
-    return JSON.stringify(actual) === JSON.stringify(expected);
-}
-
-function formatInput(problem, inputs) {
-    // 获取函数的参数名（从 template 解析）
-    const match = problem.template.match(/def\s+\w+\(([^)]*)\)/);
-    if (match) {
-        const params = match[1].split(',').map(s => s.trim());
-        return inputs.map((v, i) => `${params[i] || 'arg' + i} = ${JSON.stringify(v)}`).join(', ');
-    }
-    return inputs.map(v => JSON.stringify(v)).join(', ');
+    runBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z"/></svg> 运行';
 }
 
 function extractError(err) {

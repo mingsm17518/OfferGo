@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "stdin": "7\n10\nvisit a.com\nvisit b.com\nback\nvisit c.com\nprint\nforward\nprint",
+      "expected": "c.com\nc.com"
+    },
+    {
+      "stdin": "7\n3\nvisit a.com\nvisit b.com\nvisit c.com\nvisit d.com\nback\nforward\nprint",
+      "expected": "d.com"
+    },
+    {
+      "stdin": "9\n3\nvisit a.com\nvisit b.com\nvisit c.com\nvisit d.com\nvisit e.com\nback\nback\nback\nprint",
+      "expected": "c.com"
+    },
+    {
+      "stdin": "4\n10\nback\nprint\nforward\nprint",
+      "expected": "Blank\nBlank"
+    },
+    {
+      "stdin": "4\n10\nvisit abc.com\nvisit abc.com\nback\nprint",
+      "expected": "abc.com"
+    },
+    {
+      "stdin": "1\n10\nprint",
+      "expected": "Blank"
+    },
+    {
+      "stdin": "2\n10\nvisit x.com\nprint",
+      "expected": "x.com"
+    },
+    {
+      "stdin": "4\n10\nvisit a.com\nvisit b.com\nback\nprint",
+      "expected": "a.com"
+    },
+    {
+      "stdin": "5\n10\nvisit a.com\nvisit b.com\nback\nforward\nprint",
+      "expected": "b.com"
+    },
+    {
+      "stdin": "6\n2\nvisit a.com\nvisit b.com\nvisit c.com\nback\nback\nprint",
+      "expected": "b.com"
+    },
+    {
+      "stdin": "3\n1\nvisit a.com\nvisit b.com\nprint",
+      "expected": "b.com"
+    },
+    {
+      "stdin": "5\n10\nvisit a.com\nvisit b.com\nback\nvisit c.com\nprint",
+      "expected": "c.com"
+    },
+    {
+      "stdin": "5\n10\nvisit a.com\nvisit b.com\nback\nback\nprint",
+      "expected": "Blank"
+    },
+    {
+      "stdin": "6\n10\nvisit a.com\nvisit b.com\nback\nvisit c.com\nforward\nprint",
+      "expected": "c.com"
+    },
+    {
+      "stdin": "8\n10\nvisit a.com\nvisit b.com\nvisit c.com\nback\nback\nforward\nforward\nprint",
+      "expected": "c.com"
+    },
+    {
+      "stdin": "3\n10\nback\nforward\nprint",
+      "expected": "Blank"
+    },
+    {
+      "stdin": "5\n10\nvisit a.com\nback\nforward\nback\nprint",
+      "expected": "Blank"
+    },
+    {
+      "stdin": "5\n10\nvisit a.com\nvisit b.com\nvisit c.com\nback\nprint",
+      "expected": "b.com"
+    },
+    {
+      "stdin": "10\n3\nvisit a.com\nvisit b.com\nvisit c.com\nvisit d.com\nback\nback\nback\nback\nprint",
+      "expected": "c.com"
+    },
+    {
+      "stdin": "6\n10\nvisit a.com\nvisit b.com\nback\nback\nback\nprint",
+      "expected": "Blank"
+    }
+  ]
+}
