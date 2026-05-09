@@ -48,6 +48,7 @@
 
     /* 圆角 */
     --radius-sm: 6px;
+    --navbar-height: 70px;
     --radius-md: 10px;
     --radius-lg: 16px;
     --radius-xl: 24px;
@@ -1062,7 +1063,7 @@ h1, h2 {
    ============================================= */
 
 .problems-page-main {
-    padding-top: 100px;
+    padding-top: calc(var(--navbar-height) + 2rem);
     min-height: 100vh;
     background: var(--bg-primary);
 }

@@ -14,10 +14,15 @@
 
 /* ---------- 主布局 ---------- */
 .playground-main {
-    margin-top: 60px;
-    height: calc(100vh - 60px);
+    margin-top: var(--navbar-height);
+    height: calc(100vh - var(--navbar-height));
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+}
+
+/* 禁止 playground 页面整页滚动 */
+body.playground-page {
     overflow: hidden;
 }
 
