@@ -5,15 +5,48 @@
 
 const PROBLEMS_DATA = [
   {
-    id: "hw-1",
+    id: "hw-0415-1",
     title: "浏览器地址栏",
     difficulty: "medium",
-    category: "huawei",
+    category: "stack",
     platform: "huawei",
     url: "https://www.nowcoder.com/practice/浏览器地址栏",
-    testcaseFile: "hw-1",
+    testcaseFile: "hw-0415-1",
     hasSolution: true,
     tags: ["华为机考", "栈", "模拟"]
+  },
+  {
+    id: "hw-0509-1",
+    title: "商品购买查询",
+    difficulty: "medium",
+    category: "other",
+    platform: "huawei",
+    url: "https://www.nowcoder.com/practice/p4907",
+    testcaseFile: "hw-0509-1",
+    hasSolution: true,
+    tags: ["华为机考", "位运算", "集合"]
+  },
+  {
+    id: "hw-0509-2",
+    title: "设备运行监控",
+    difficulty: "medium",
+    category: "sliding-window",
+    platform: "huawei",
+    url: "",
+    testcaseFile: "hw-0509-2",
+    hasSolution: true,
+    tags: ["滑动窗口", "单调队列", "华为机考"]
+  },
+  {
+    id: "hw-0509-3",
+    title: "虚拟机任务调度问题",
+    difficulty: "hard",
+    category: "dp",
+    platform: "huawei",
+    url: "https://www.nowcoder.com/practice/p4909",
+    testcaseFile: "hw-0509-3",
+    hasSolution: true,
+    tags: ["华为机考", "动态规划", "完全背包", "路径记录"]
   },
   {
     id: "lc-200",
@@ -52,8 +85,7 @@ const CATEGORY_NAMES = {
     "greedy": "贪心",
     "heap": "堆",
     "matrix": "矩阵",
-    "other": "技巧",
-    "huawei": "华为机考"
+    "other": "技巧"
 };
 
 // 难度映射

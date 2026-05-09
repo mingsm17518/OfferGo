@@ -1,0 +1,97 @@
+<h3>浏览器地址栏</h3>
+<p>小明正在开发浏览器地址栏功能，支持四种操作：<code>visit</code>（访问网页）、<code>back</code>（返回上一页）、<code>forward</code>（前进到下一页）、<code>print</code>（输出当前地址）。</p>
+<h4>初始状态</h4>
+<ul>
+<li>当前页面为 <code>Blank</code>，历史记录中只有 1 个 <code>Blank</code> 页面</li>
+<li>最多保存 <code>max_history</code> 个历史记录</li>
+<li>每次访问新页面时清空前进记录</li>
+</ul>
+<h4>操作说明</h4>
+<ul>
+<li><strong>visit url</strong>：当前页面更新为该网页，加入历史记录；若超过 max_history 则删除最早记录；清空前进记录</li>
+<li><strong>back</strong>：若历史记录至少有两个页面，切换到上一页，原当前页面加入前进记录；否则不做操作</li>
+<li><strong>forward</strong>：若前进记录不为空，切换到下一页，该页面加入历史记录；否则不做操作</li>
+<li><strong>print</strong>：输出当前页面地址，若为 Blank 则输出 Blank</li>
+</ul>
+<h4>输入描述</h4>
+<p>第一行：整数 n（操作数 1 ≤ n ≤ 200）
+第二行：整数 max_history（0 &lt; max_history &lt; 100）
+接下来 n 行：操作命令</p>
+<h4>输出描述</h4>
+<p>每次 print 操作输出当前地址，若无访问过任何页面则输出 Blank</p>
+<h4>样例 1</h4>
+<p><strong>输入:</strong></p>
+<pre><code>7
+10
+visit a.com
+visit b.com
+back
+visit c.com
+print
+forward
+print
+</code></pre>
+<p><strong>输出:</strong></p>
+<pre><code>c.com
+c.com
+</code></pre>
+<p>back 后前进记录为 b.com；后续 visit 清空前进记录，因此 forward 无操作。</p>
+<h4>样例 2</h4>
+<p><strong>输入:</strong></p>
+<pre><code>7
+3
+visit a.com
+visit b.com
+visit c.com
+visit d.com
+back
+forward
+print
+</code></pre>
+<p><strong>输出:</strong></p>
+<pre><code>d.com
+</code></pre>
+<h4>样例 3</h4>
+<p><strong>输入:</strong></p>
+<pre><code>9
+3
+visit a.com
+visit b.com
+visit c.com
+visit d.com
+visit e.com
+back
+back
+back
+print
+</code></pre>
+<p><strong>输出:</strong></p>
+<pre><code>c.com
+</code></pre>
+<p>容量为 3，历史记录为 c.com、d.com、e.com，三次 back 后当前页面为 c.com。</p>
+<h4>样例 4</h4>
+<p><strong>输入:</strong></p>
+<pre><code>4
+10
+back
+print
+forward
+print
+</code></pre>
+<p><strong>输出:</strong></p>
+<pre><code>Blank
+Blank
+</code></pre>
+<h4>样例 5</h4>
+<p><strong>输入:</strong></p>
+<pre><code>4
+10
+visit abc.com
+visit abc.com
+back
+print
+</code></pre>
+<p><strong>输出:</strong></p>
+<pre><code>abc.com
+</code></pre>
+<p>访问两次相同页面，历史记录为 Blank、abc.com、abc.com，back 后当前页面为 abc.com。</p>

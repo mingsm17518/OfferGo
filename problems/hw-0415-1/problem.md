@@ -1,7 +1,7 @@
 ---
 title: "浏览器地址栏"
 difficulty: medium
-category: huawei
+category: stack
 platform: huawei
 url: https://www.nowcoder.com/practice/浏览器地址栏
 tags: [华为机考, 栈, 模拟]

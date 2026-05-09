@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="OfferGo 题库 - 多平台算法题目精选，支持 LeetCode、Codeforces、牛客筛选">
-    <title>题库 | OfferGo</title>
+    <meta name="description" content="OfferGo 题目清单 - 多平台算法题目精选，支持 LeetCode、Codeforces、牛客筛选">
+    <title>题目清单 | OfferGo</title>
     <script>
         (function(){var s=localStorage.getItem('z2l-theme');var t=s||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');document.documentElement.setAttribute('data-theme',t);})();
     </script>
@@ -15,7 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=2">
+    <link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 
 <body>
@@ -61,7 +61,7 @@
     <main class="problems-page-main">
         <div class="container">
             <div class="problems-page-header">
-                <h1 class="problems-page-title">题库</h1>
+                <h1 class="problems-page-title">题目清单</h1>
                 <p class="problems-page-subtitle">多平台算法题目精选，按平台、难度、分类筛选</p>
             </div>
 
@@ -83,25 +83,22 @@
                     <button class="filter-btn" data-filter="hard">🔴 困难</button>
                 </div>
                 <div class="filter-group">
-                    <select id="category-filter" class="filter-select">
-                        <option value="all">全部分类</option>
-                        <option value="hash">哈希表</option>
-                        <option value="two-pointers">双指针</option>
-                        <option value="sliding-window">滑动窗口</option>
-                        <option value="subarray">子串/子数组</option>
-                        <option value="stack">栈</option>
-                        <option value="linked-list">链表</option>
-                        <option value="tree">二叉树</option>
-                        <option value="graph">图论</option>
-                        <option value="backtrack">回溯</option>
-                        <option value="binary-search">二分查找</option>
-                        <option value="dp">动态规划</option>
-                        <option value="greedy">贪心</option>
-                        <option value="heap">堆</option>
-                        <option value="matrix">矩阵</option>
-                        <option value="other">技巧</option>
-                        <option value="huawei">华为机考</option>
-                    </select>
+                    <button class="filter-btn active" data-category="all">全部分类</button>
+                    <button class="filter-btn" data-category="hash">哈希表</button>
+                    <button class="filter-btn" data-category="two-pointers">双指针</button>
+                    <button class="filter-btn" data-category="sliding-window">滑动窗口</button>
+                    <button class="filter-btn" data-category="subarray">子串/子数组</button>
+                    <button class="filter-btn" data-category="stack">栈</button>
+                    <button class="filter-btn" data-category="linked-list">链表</button>
+                    <button class="filter-btn" data-category="tree">二叉树</button>
+                    <button class="filter-btn" data-category="graph">图论</button>
+                    <button class="filter-btn" data-category="backtrack">回溯</button>
+                    <button class="filter-btn" data-category="binary-search">二分查找</button>
+                    <button class="filter-btn" data-category="dp">动态规划</button>
+                    <button class="filter-btn" data-category="greedy">贪心</button>
+                    <button class="filter-btn" data-category="heap">堆</button>
+                    <button class="filter-btn" data-category="matrix">矩阵</button>
+                    <button class="filter-btn" data-category="other">技巧</button>
                 </div>
                 <div class="search-box">
                     <input type="text" id="problem-search" placeholder="搜索题号或题目名称...">

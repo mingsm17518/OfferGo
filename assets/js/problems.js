@@ -79,11 +79,12 @@
     }
 
     function syncFilterUI() {
-        document.querySelectorAll('.filter-btn').forEach(function (btn) {
+        document.querySelectorAll('[data-filter]').forEach(function (btn) {
             btn.classList.toggle('active', btn.dataset.filter === currentDifficulty);
         });
-        var catSelect = document.getElementById('category-filter');
-        if (catSelect) catSelect.value = currentCategory;
+        document.querySelectorAll('[data-category]').forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.category === currentCategory);
+        });
     }
 
     function initPlatformTabs() {
@@ -99,22 +100,23 @@
     }
 
     function initFilters() {
-        document.querySelectorAll('.filter-btn').forEach(function (btn) {
+        document.querySelectorAll('[data-filter]').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+                document.querySelectorAll('[data-filter]').forEach(function (b) { b.classList.remove('active'); });
                 btn.classList.add('active');
                 currentDifficulty = btn.dataset.filter;
                 renderTable();
             });
         });
 
-        var catSelect = document.getElementById('category-filter');
-        if (catSelect) {
-            catSelect.addEventListener('change', function () {
-                currentCategory = catSelect.value;
+        document.querySelectorAll('[data-category]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('[data-category]').forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
                 renderTable();
             });
-        }
+        });
     }
 
     function initSearch() {

@@ -90,18 +90,26 @@ document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
 function initScrollAnimations() {
     var observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -40px 0px'
     };
 
     var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.roadmap-item, .module-card, .entry-card').forEach(function (el) {
+    var selectors = '.roadmap-item, .module-card, .entry-card, .feature-card, ' +
+                    '.ai-feature-card, .company-tag';
+
+    document.querySelectorAll(selectors).forEach(function (el) {
+        var parent = el.parentElement;
+        var siblings = Array.from(parent.children);
+        var siblingIndex = siblings.indexOf(el);
+        el.style.setProperty('--anim-index', Math.min(siblingIndex, 8));
         observer.observe(el);
     });
 }
