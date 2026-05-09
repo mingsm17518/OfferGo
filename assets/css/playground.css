@@ -1158,15 +1158,21 @@ body.ai-open .ai-fab {
 .panel-collapse-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 28px;
+    gap: 4px;
     height: 28px;
+    padding: 0 10px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     color: var(--text-secondary);
     cursor: pointer;
     transition: all var(--transition-fast);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.panel-collapse-btn .collapse-label {
+    white-space: nowrap;
 }
 
 .panel-collapse-btn:hover {
@@ -1188,10 +1194,10 @@ body.cph-collapsed #cph-toggle-btn svg {
 
 .panel-collapse-handle {
     position: absolute;
-    right: -14px;
+    right: -20px;
     top: 50%;
     transform: translateY(-50%);
-    width: 14px;
+    width: 20px;
     height: 48px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
@@ -1202,6 +1208,7 @@ body.cph-collapsed #cph-toggle-btn svg {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1px;
     color: var(--text-muted);
     transition: all var(--transition-fast);
 }
@@ -1212,9 +1219,9 @@ body.cph-collapsed #cph-toggle-btn svg {
 }
 
 body.left-collapsed .panel-collapse-handle {
-    right: 0;
-    border-left: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    right: -20px;
+    border-left: none;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 body.left-collapsed .panel-collapse-handle svg {
@@ -1271,10 +1278,10 @@ body.cph-collapsed .cph-panel {
 /* CPH Collapse Handle (left side of panel) */
 .cph-collapse-handle {
     position: absolute;
-    left: -14px;
+    left: -20px;
     top: 50%;
     transform: translateY(-50%);
-    width: 14px;
+    width: 20px;
     height: 48px;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
@@ -1285,6 +1292,7 @@ body.cph-collapsed .cph-panel {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1px;
     color: var(--text-muted);
     transition: all var(--transition-fast);
 }
@@ -1295,9 +1303,9 @@ body.cph-collapsed .cph-panel {
 }
 
 body.cph-collapsed .cph-collapse-handle {
-    left: 0;
-    border-right: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
+    left: -20px;
+    border-right: none;
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
 }
 
 body.cph-collapsed .cph-collapse-handle svg {

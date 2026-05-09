@@ -74,7 +74,8 @@
         <div class="playground-toolbar">
             <div class="toolbar-left">
                 <button id="left-collapse-btn" class="panel-collapse-btn" title="收起题目面板">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    <span class="collapse-label">题目</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
                 <select id="problem-select" class="problem-select">
                     <!-- JS 动态填充 -->
@@ -90,8 +91,9 @@
                 </button>
                 <button id="reset-btn" class="btn btn-reset">重置</button>
                 <span class="toolbar-divider"></span>
-                <button id="cph-toggle-btn" class="panel-collapse-btn" title="打开 CPH 评测面板">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                <button id="cph-toggle-btn" class="panel-collapse-btn" title="打开评测面板">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                    <span class="collapse-label">评测</span>
                 </button>
             </div>
         </div>
@@ -101,6 +103,7 @@
             <!-- 左侧：题目描述（可折叠） -->
             <div class="panel panel-left" id="panel-left">
                 <button class="panel-collapse-handle" id="left-collapse-handle" title="收起题目">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
                 <div class="panel-header">
@@ -142,6 +145,7 @@
             <!-- 右侧：CPH 评测面板（可折叠，默认收起） -->
             <div class="cph-panel" id="cph-panel">
                 <button class="cph-collapse-handle" id="cph-collapse-handle" title="收起评测面板">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
                 <div class="panel-header">
