@@ -386,6 +386,13 @@ async function loadProblem(problem) {
     currentProblem = problem;
     window.currentProblem = problem; // expose for AI assistant
 
+    // Update prev/next button states
+    const select = document.getElementById('problem-select');
+    const prevBtn = document.getElementById('prev-problem-btn');
+    const nextBtn = document.getElementById('next-problem-btn');
+    if (prevBtn) prevBtn.disabled = select.selectedIndex <= 0;
+    if (nextBtn) nextBtn.disabled = select.selectedIndex >= PROBLEMS.length - 1;
+
     const footer = document.getElementById('problem-footer');
     let btns = '';
     if (problem.solutionUrl) {
@@ -454,6 +461,22 @@ function bindEvents() {
         loadProblem(PROBLEMS[e.target.value]);
     });
 
+    // Prev/Next problem
+    document.getElementById('prev-problem-btn').addEventListener('click', () => {
+        const select = document.getElementById('problem-select');
+        if (select.selectedIndex > 0) {
+            select.selectedIndex--;
+            loadProblem(PROBLEMS[select.value]);
+        }
+    });
+    document.getElementById('next-problem-btn').addEventListener('click', () => {
+        const select = document.getElementById('problem-select');
+        if (select.selectedIndex < PROBLEMS.length - 1) {
+            select.selectedIndex++;
+            loadProblem(PROBLEMS[select.value]);
+        }
+    });
+
     // Main run button (LeetCode test cases)
     document.getElementById('run-btn').addEventListener('click', runCode);
 
@@ -473,6 +496,11 @@ function bindEvents() {
     // CPH panel toggle
     document.getElementById('cph-toggle-btn').addEventListener('click', toggleCPHPanel);
     document.getElementById('cph-collapse-handle').addEventListener('click', toggleCPHPanel);
+
+    // Output panel collapse
+    document.getElementById('output-toggle').addEventListener('click', () => {
+        document.getElementById('panel-output').classList.toggle('collapsed');
+    });
 
     // CPH run
     document.getElementById('cph-run-btn').addEventListener('click', runCodeCPH);

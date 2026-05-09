@@ -80,6 +80,12 @@
                 <select id="problem-select" class="problem-select">
                     <!-- JS 动态填充 -->
                 </select>
+                <button id="prev-problem-btn" class="nav-problem-btn" title="上一题">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button id="next-problem-btn" class="nav-problem-btn" title="下一题">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
             </div>
             <div class="toolbar-right">
                 <span id="pyodide-status" class="pyodide-status loading">Pyodide 加载中...</span>
@@ -131,12 +137,13 @@
                 </div>
 
                 <!-- 输出/测试结果 -->
-                <div class="panel panel-output">
-                    <div class="panel-header">
+                <div class="panel panel-output" id="panel-output">
+                    <div class="panel-header output-header" id="output-toggle">
                         <span class="panel-title">测试结果</span>
                         <span id="result-summary" class="result-summary"></span>
+                        <svg class="output-toggle-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
                     </div>
-                    <div class="panel-body" id="output-area">
+                    <div class="panel-body output-body" id="output-area">
                         <div class="output-placeholder">点击「运行」查看测试结果</div>
                     </div>
                 </div>

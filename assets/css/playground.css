@@ -62,6 +62,31 @@ body.playground-page {
     border-color: var(--primary);
 }
 
+.nav-problem-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.nav-problem-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+}
+
+.nav-problem-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 /* Pyodide 状态 */
 .pyodide-status {
     font-size: 0.8rem;
@@ -366,6 +391,29 @@ body.left-collapsed .panel-left {
 }
 
 /* ---------- 测试结果 ---------- */
+.output-header {
+    cursor: pointer;
+    user-select: none;
+}
+
+.output-header:hover {
+    background: var(--bg-card-hover);
+}
+
+.output-toggle-icon {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+    color: var(--text-muted);
+}
+
+.panel-output.collapsed .output-toggle-icon {
+    transform: rotate(-90deg);
+}
+
+.panel-output.collapsed .output-body {
+    display: none;
+}
+
 .result-summary {
     font-size: 0.8rem;
     font-weight: 600;
